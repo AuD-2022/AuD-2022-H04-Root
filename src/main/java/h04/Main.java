@@ -1,4 +1,4 @@
-package h_id_;
+package h04;
 
 /**
  * Main entry point in executing the program.
