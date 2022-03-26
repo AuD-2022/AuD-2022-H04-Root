@@ -255,7 +255,6 @@ public class MyCollections<T> {
             // Sort element and fix violation of the sorted property (in place)
             if (index != i) {
                 sorted = swap(sorted, index, i);
-                rotateDuplicatesLeft(sorted, index, i - 1);
             }
         }
         return sorted;
@@ -410,30 +409,5 @@ public class MyCollections<T> {
             current = current.next;
         }
         return maxIndex;
-    }
-
-    /**
-     * Rotates duplicates to fix the violation of the sorted property (in place=.
-     *
-     * @param head  the list to rotate
-     * @param first the index of the first occurrence of the duplicate
-     * @param last  the index of the last index to be considered
-     */
-    private void rotateDuplicatesLeft(ListItem<T> head, int first, int last) {
-        ListItem<T> current = head;
-        // Skip elements before the first occurrence
-        for (int i = 0; i < first; i++) {
-            current = current.next;
-        }
-        int next = first;
-        ListItem<T> nextItem = current;
-        // Fix violation
-        current = current.next;
-        for (int i = first + 1; i < last; i++) {
-            if (nextItem == current) {
-                head = swap(head, next, i);
-                next = i;
-            }
-        }
     }
 }
