@@ -45,4 +45,3 @@ public class ListItem<T> {
         return String.format("[%s|%s]", key, next == null ? "null" : next.key);
     }
 }
-
