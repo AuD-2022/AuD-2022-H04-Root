@@ -34,7 +34,7 @@ public class FunctionOnRatioOfRuns<T> extends FunctionOnDegreeOfDisorder<T> {
     @Override
     public int apply(List<T> elements) {
         Objects.requireNonNull(elements, "The list of elements must not be null");
-        int runs = Permutations.getNumberOfRuns(elements, comparator);
+        int runs = Permutations.getNumberOfRuns(elements, cmp);
         double ratio = (double) runs / elements.size();
         return function.apply(ratio);
     }

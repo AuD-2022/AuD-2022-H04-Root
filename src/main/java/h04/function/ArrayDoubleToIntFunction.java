@@ -5,10 +5,10 @@ package h04.function;
  *
  * <p>The function values can be calculated as follows:
  * <ul>
- *   <li>If {@code x * (n - 1)} has a maximum deviation of {@value DELTA} from an integer, the
- *   element is returned at the index {@code x * (n - 1)}</li>
- *   <li>Otherwise, the indices {@code x * (n - 1)} (rounded down) and {@code x * (n - 1)}
- *   (rounded up) are linearly interpolated and rounded to an integer.</li>
+ *   <li>If {@code x * (n - 1)} has a maximum deviation of {@value DELTA} from an integer, the element is returned at the index
+ *   {@code x * (n - 1)}</li>
+ *   <li>Otherwise, the indices {@code x * (n - 1)} (rounded down) and {@code x * (n - 1)} (rounded up) are linearly
+ *   interpolated and rounded to an integer.</li>
  * </ul>
  *
  * @author Nhan Huynh
@@ -26,8 +26,7 @@ public class ArrayDoubleToIntFunction implements DoubleToIntFunction {
     private final int[] elements;
 
     /**
-     * Constructs and initializes an {@code ArrayDoubleToIntFunction} with the given values used for
-     * the function.
+     * Constructs and initializes an {@code ArrayDoubleToIntFunction} with the given values used for the function.
      *
      * @param elements the array of values used for the function
      */
@@ -39,22 +38,20 @@ public class ArrayDoubleToIntFunction implements DoubleToIntFunction {
     /**
      * Applies this function to the given argument.
      *
-     * <p>If {@code x * (n - 1)} has a maximum deviation of 10^-6 from an integer, the element is
-     * returned at its index. Otherwise, the indices {@code x * (n - 1)} (rounded down) and {@code x
-     * * (n - 1)} (rounded up) are linearly interpolated and rounded to an integer.
+     * <p>If {@code x * (n - 1)} has a maximum deviation of 10^-6 from an integer, the element is returned at its index.
+     * Otherwise, the indices {@code x * (n - 1)} (rounded down) and {@code x * (n - 1)} (rounded up) are linearly interpolated
+     * and rounded to an integer.
      *
      * @param value the function argument
      *
      * @return the function result
      *
-     * @throws IllegalArgumentException if the function argument is not between 0.0 (inclusive) and
-     *                                  1.0 (inclusive)
+     * @throws IllegalArgumentException if the function argument is not between 0.0 (inclusive) and 1.0 (inclusive)
      */
     @Override
     public int apply(double value) {
         double index = value * (elements.length - 1);
-        // Check if index has a maximum deviation of 10^-6 to a whole number and returns the
-        // element at that index
+        // Check if index has a maximum deviation of 10^-6 to a whole number and returns the element at that index
         if (Math.abs(index - Math.round(index)) < DELTA) {
             return elements[(int) Math.round(index)];
         }

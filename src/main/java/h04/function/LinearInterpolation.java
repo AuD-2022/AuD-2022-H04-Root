@@ -5,10 +5,9 @@ package h04.function;
  *
  * <p>The function has the following form:
  * <ol>
- *   <li>Create a double-array and copy all indices values of y to the new array which are not
- *   {@code null}.</li>
- *   <li>The indices containing {@code null} values are linearly interpolated using the next
- *   left and right known function values.</li>
+ *   <li>Create a double-array and copy all indices values of y to the new array which are not {@code null}.</li>
+ *   <li>The indices containing {@code null} values are linearly interpolated using the next left and right known function
+ *   values.</li>
  *   <li>Create an int-array and round all values.</li>
  *   <li>Create a {@code ArrayDoubleToIntFunction} containing the rounded values.</li>
  * </ol>

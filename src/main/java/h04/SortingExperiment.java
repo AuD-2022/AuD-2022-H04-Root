@@ -73,16 +73,13 @@ public final class SortingExperiment {
 
 
     /**
-     * Computes the most optimal threshold for runs and inversions in consideration to the least CPU
-     * time.
+     * Computes the most optimal threshold for runs and inversions in consideration to the least CPU time.
      *
      * @param n     the length of the list to be sorted to measure the CPU time of the algorithm
-     * @param swaps the maximum number of permutations to be performed in order to generate the
-     *              random permutations
-     * @param bins  the number of bins in which the key figures of runs and inversions are to be
-     *              grouped respectively
-     * @param gamma the minimum proportion of the threshold to be tried for a bin should be tried
-     *              for a bin to determine a valid result
+     * @param swaps the maximum number of permutations to be performed in order to generate the random permutations
+     * @param bins  the number of bins in which the key figures of runs and inversions are to be grouped respectively
+     * @param gamma the minimum proportion of the threshold to be tried for a bin should be tried for a bin to determine a valid
+     *              result
      *
      * @return the most optimal threshold for runs and inversions
      */
@@ -198,12 +195,10 @@ public final class SortingExperiment {
     }
 
     /**
-     * Computes the average sorting time in milliseconds for a list of n elements. The average time
-     * is determined by the given number of permutations that should be tested and the given
-     * threshold.
+     * Computes the average sorting time in milliseconds for a list of n elements. The average time is determined by the given
+     * number of permutations that should be tested and the given threshold.
      *
-     * @param n            the length of the list to be sorted to measure the CPU time of the
-     *                     algorithm
+     * @param n            the length of the list to be sorted to measure the CPU time of the algorithm
      * @param function     the function that is used to determine the optimal threshold
      * @param permutations the number of permutations to be tested
      *

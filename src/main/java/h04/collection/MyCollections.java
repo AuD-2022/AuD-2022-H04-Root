@@ -9,8 +9,8 @@ import java.util.ListIterator;
 
 
 /**
- * A collection that allows to order (sort) the unordered sequence. The sorting algorithm is based
- * on merge-sort, switching to selection-sort when the sequence is small to increase performance.
+ * A collection that allows to order (sort) the unordered sequence. The sorting algorithm is based on merge-sort, switching to
+ * selection-sort when the sequence is small to increase performance.
  *
  * @param <T> the type of the elements in the list that can be sorted
  *
@@ -19,25 +19,24 @@ import java.util.ListIterator;
 public class MyCollections<T> {
 
     /**
-     * Determines the toggle length when the sorting algorithm should be toggled (usage of another
-     * sorting algorithm).
+     * Determines the toggle length when the sorting algorithm should be toggled (usage of another sorting algorithm).
      */
     private final ListToIntFunction<T> function;
 
     /**
      * The comparator used to compare the elements of the list.
      */
-    private final Comparator<? super T> comparator;
+    private final Comparator<? super T> cmp;
 
     /**
      * Constructs and initializes a {@code MyCollections}.
      *
-     * @param function   the function determining the toggle length
-     * @param comparator the comparator used to compare the elements of the list
+     * @param function the function determining the toggle length
+     * @param cmp      the comparator used to compare the elements of the list
      */
-    public MyCollections(ListToIntFunction<T> function, Comparator<? super T> comparator) {
+    public MyCollections(ListToIntFunction<T> function, Comparator<? super T> cmp) {
         this.function = function;
-        this.comparator = comparator;
+        this.cmp = cmp;
     }
 
     /**
@@ -93,8 +92,8 @@ public class MyCollections<T> {
     }
 
     /**
-     * Sorts the list in place using the merge sort algorithm. If the (sub-)sequence is smaller than
-     * the specified threshold, the selection sort algorithm  (in place) is used.
+     * Sorts the list in place using the merge sort algorithm. If the (sub-)sequence is smaller than the specified threshold, the
+     * selection sort algorithm  (in place) is used.
      *
      * @param head      the list to sort
      * @param threshold the threshold determining the toggle length
@@ -105,12 +104,12 @@ public class MyCollections<T> {
         boolean sorted = true;
         int size = 0;
 
-        // Since we have to compute the size of the sequence, we can also check if the sequence is
-        // sorted and break the recursion if it is sorted
+        // Since we have to compute the size of the sequence, we can also check if the sequence is sorted and break the
+        // recursion if it is sorted
         for (ListItem<T> current = head; current != null; current = current.next) {
             // Compute is sorted
             if (current.next != null) {
-                sorted &= comparator.compare(current.key, current.next.key) <= 0;
+                sorted &= cmp.compare(current.key, current.next.key) <= 0;
             }
             size++;
         }
@@ -129,8 +128,7 @@ public class MyCollections<T> {
         ListItem<T> right = split(head, (size + 1) / 2);
         // ListItem<T> right = split(head, (size + 1) / 2, (runs + 1) / 2, runs % 2 == 1);
 
-        // Otherwise if case (a) or (b) does not apply, recursively sort the sub-sequences using
-        // merge sort
+        // Otherwise if case (a) or (b) does not apply, recursively sort the sub-sequences using merge sort
         return merge(
             adaptiveMergeSortInPlace(head, threshold),
             adaptiveMergeSortInPlace(right, threshold)
@@ -140,8 +138,8 @@ public class MyCollections<T> {
     /**
      * Splits the list into two subsequences.
      *
-     * <p>The decomposition of the list into two subsequences is related to the searched optimal
-     * size and the number of elements of runs, which is close to the optimal size.
+     * <p>The decomposition of the list into two subsequences is related to the searched optimal size and the number of
+     * elements of runs, which is close to the optimal size.
      *
      * @param head        the list to split
      * @param optimalSize the optimal size after the split
@@ -160,13 +158,13 @@ public class MyCollections<T> {
         int size = 2;
         for (ListItem<T> current = head.next; current != null; previous = current,
             current = current.next, size++) {
-            if (comparator.compare(previous.key, current.key) <= 0) {
+            if (cmp.compare(previous.key, current.key) <= 0) {
                 continue;
             }
 
             // -1 since we split before the current element
-            // Try to get an even distribution of elements by computing the minimum difference of a
-            // run depending on the optimal size
+            // Try to get an even distribution of elements by computing the minimum difference of a run depending on the
+            // optimal size
             int newDiff = Math.abs(size - optimalSize - 1);
             if (diff == -1 || newDiff < diff) {
                 split = previous;
@@ -206,7 +204,7 @@ public class MyCollections<T> {
         while (leftCurrent != null && rightCurrent != null) {
             // Find minimum element to sort
             ListItem<T> minimum;
-            if (comparator.compare(leftCurrent.key, rightCurrent.key) <= 0) {
+            if (cmp.compare(leftCurrent.key, rightCurrent.key) <= 0) {
                 minimum = leftCurrent;
                 leftCurrent = leftCurrent.next;
             } else {
@@ -323,11 +321,9 @@ public class MyCollections<T> {
              *
              * Sequence: f/s -> e2 -> e3 -> ... -> en -> null
              *
-             * s.next is the new head since the second element should be swapped with the first element
-             * (e2)
+             * s.next is the new head since the second element should be swapped with the first element (e2)
              * f.next should point to the old s.next.next (f -> e3)
-             * the new head next element should point to f since f should be the next element after s
-             * (new head - e2 -> f)
+             * the new head next element should point to f since f should be the next element after s  (new head - e2 -> f)
              */
             ListItem<T> newHead = second.next;
             first.next = second.next.next;
@@ -344,8 +340,7 @@ public class MyCollections<T> {
              *
              * Sequence: f -> e2 -> ... -> s -> ek -> em -> ... -> en -> null
              *
-             * s.next is the new head since the second element should be swapped with the first element
-             * (ek)
+             * s.next is the new head since the second element should be swapped with the first element (ek)
              * the next element of the new head should be first.next (ek -> e2)
              * s.next should point to the first element (swap ek with f)
              * f.next should point to the old s.next.next (s -> f -> em)
@@ -402,7 +397,7 @@ public class MyCollections<T> {
         current = current.next;
         for (int i = low + 1; i <= high; i++) {
             // Update the maximum element (only get the latest maximum)
-            if (comparator.compare(max, current.key) <= 0) {
+            if (cmp.compare(max, current.key) <= 0) {
                 maxIndex = i;
                 max = current.key;
             }

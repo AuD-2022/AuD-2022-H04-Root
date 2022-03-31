@@ -14,15 +14,14 @@ public abstract class FunctionOnDegreeOfDisorder<T> implements ListToIntFunction
     /**
      * The comparator used to compare the elements of the list.
      */
-    protected final Comparator<? super T> comparator;
+    protected final Comparator<? super T> cmp;
 
     /**
-     * Constructs and initializes a {@code FunctionOnDegreeOfDisorder} with the specified
-     * comparator.
+     * Constructs and initializes a {@code FunctionOnDegreeOfDisorder} with the specified comparator.
      *
-     * @param comparator the comparator used to compare the elements of the list
+     * @param cmp the comparator used to compare the elements of the list
      */
-    public FunctionOnDegreeOfDisorder(Comparator<? super T> comparator) {
-        this.comparator = comparator;
+    public FunctionOnDegreeOfDisorder(Comparator<? super T> cmp) {
+        this.cmp = cmp;
     }
 }
