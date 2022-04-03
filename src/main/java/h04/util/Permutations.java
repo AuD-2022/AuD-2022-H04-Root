@@ -37,7 +37,7 @@ public final class Permutations {
      *
      * @return the number of runs in the specified list
      */
-    public static <T> int getNumberOfRuns(List<T> elements, Comparator<? super T> comparator) {
+    public static <T> int computeNumberOfRuns(List<T> elements, Comparator<? super T> comparator) {
         int runs = 1;
         Iterator<T> iterator = elements.iterator();
         if (iterator.hasNext()) {
@@ -71,7 +71,7 @@ public final class Permutations {
      *
      * @return the number of inversions in the specified list
      */
-    public static <T> int getNumberOfInversions(List<T> elements, Comparator<? super T> comparator) {
+    public static <T> int computeNumberOfInversions(List<T> elements, Comparator<? super T> comparator) {
         int inversions = 0;
         ListIterator<T> iterator = elements.listIterator();
         while (iterator.hasNext()) {
