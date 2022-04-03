@@ -23,10 +23,10 @@ public class FunctionOnRatioOfInversions<T> extends FunctionOnDegreeOfDisorder<T
     /**
      * Constructs and initializes a {@code FunctionOnRatioOfInversions}.
      *
-     * @param function the function to be applied to the ratio of runs
      * @param cmp      the comparator used to compare the elements of the list
+     * @param function the function to be applied to the ratio of runs
      */
-    public FunctionOnRatioOfInversions(DoubleToIntFunction function, Comparator<? super T> cmp) {
+    public FunctionOnRatioOfInversions(Comparator<? super T> cmp, DoubleToIntFunction function) {
         super(cmp);
         this.function = function;
     }
@@ -34,7 +34,7 @@ public class FunctionOnRatioOfInversions<T> extends FunctionOnDegreeOfDisorder<T
     @Override
     public int apply(List<T> elements) {
         Objects.requireNonNull(elements, "The list of elements must not be null");
-        int inversions = Permutations.getNumberOfInversions(elements, cmp);
+        int inversions = Permutations.computeNumberOfInversions(elements, cmp);
         int size = elements.size();
         // Max number of inversions
         int combinations = size * (size - 1) / 2;
