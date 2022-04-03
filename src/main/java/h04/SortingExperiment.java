@@ -13,12 +13,12 @@ import h04.util.Permutations;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -41,7 +41,7 @@ public final class SortingExperiment {
      * @param args program arguments, currently ignored
      */
     public static void main(String[] args) {
-        int n = 1000000;
+        int n = 1000;
         int swaps = 800;
         int bins = 100;
         double gamma = 0.5;
@@ -49,6 +49,9 @@ public final class SortingExperiment {
         int permutations = 1000;
 
         Integer[][] optimalThresholds = computeOptimalThresholds(n, swaps, bins, gamma);
+        System.out.println("Optimal thresholds (Runs, Inversions):");
+        System.out.println(Arrays.toString(optimalThresholds[0]));
+        System.out.println(Arrays.toString(optimalThresholds[1]));
 
         LinearRegression regression = new LinearRegression();
         LinearInterpolation interpolation = new LinearInterpolation();
@@ -56,13 +59,13 @@ public final class SortingExperiment {
         Comparator<Integer> cmp = Comparator.naturalOrder();
         Map<String, FunctionOnDegreeOfDisorder<Integer>> functions = Map.of(
             "Linear regression ratio of runs",
-            new FunctionOnRatioOfRuns<>(regression.fitFunction(optimalThresholds[0]), cmp),
+            new FunctionOnRatioOfRuns<>(cmp, regression.fitFunction(optimalThresholds[0])),
             "Linear interpolation ratio of runs",
-            new FunctionOnRatioOfRuns<>(interpolation.fitFunction(optimalThresholds[0]), cmp),
+            new FunctionOnRatioOfRuns<>(cmp, interpolation.fitFunction(optimalThresholds[0])),
             "Linear regression ratio of inversions",
-            new FunctionOnRatioOfInversions<>(regression.fitFunction(optimalThresholds[0]), cmp),
+            new FunctionOnRatioOfInversions<>(cmp, regression.fitFunction(optimalThresholds[1])),
             "Linear interpolation ratio of inversions",
-            new FunctionOnRatioOfInversions<>(interpolation.fitFunction(optimalThresholds[0]), cmp)
+            new FunctionOnRatioOfInversions<>(cmp, interpolation.fitFunction(optimalThresholds[1]))
         );
 
         for (Map.Entry<String, FunctionOnDegreeOfDisorder<Integer>> entry : functions.entrySet()) {
@@ -91,7 +94,7 @@ public final class SortingExperiment {
         int numberOfThresholds = (int) Math.ceil(Math.log(n) / Math.log(2));
         boolean[][][] observedThresholds = new boolean[2][bins][numberOfThresholds];
 
-        Comparator<Integer> cmp = Comparator.naturalOrder();
+        Comparator<Integer> cmp = Integer::compareTo;
 
         for (int iteration = 1; iteration <= 2; iteration++) {
             for (int exponent = 0; exponent < numberOfThresholds; exponent++) {
@@ -100,21 +103,16 @@ public final class SortingExperiment {
                 // s := {0, ..., swaps}}
                 for (int s = 0; s < swaps; s++) {
                     // p'
-                    List<Integer> pd = new CopyOnWriteArrayList<>(p);
+                    List<Integer> pd = new ArrayList<>(p);
 
                     // Iteration 1 = {1, ..., n}, iteration 2 = {n, ..., 1}
                     if (iteration == 2) {
                         Collections.reverse(pd);
                     }
-                    Permutations.randomSwaps(pd, swaps);
+                    Permutations.randomSwaps(pd, s);
 
-
-                    int runs = Permutations.getNumberOfRuns(pd, cmp);
-                    int inversions = Permutations.getNumberOfInversions(pd, cmp);
-                    MyCollections<Integer> mc = new MyCollections<>(
-                        new ConstantListToIntFunction<>(u),
-                        cmp
-                    );
+                    int runs = Permutations.computeNumberOfRuns(pd, cmp);
+                    int inversions = Permutations.computeNumberOfInversions(pd, cmp);
 
                     // [k_run, k_inv]
                     int[] k = {
@@ -122,9 +120,13 @@ public final class SortingExperiment {
                         bins * inversions / (n * (n - 1) / 2 + 1)
                     };
 
+                    MyCollections<Integer> mc = new MyCollections<>(
+                        new ConstantListToIntFunction<>(u), cmp
+                    );
+
                     // Time measurement
                     Instant start = Instant.now();
-                    mc.sort(p);
+                    mc.sort(pd);
                     Instant end = Instant.now();
                     assert isSorted(pd, cmp) : "The list is not sorted";
                     Duration duration = Duration.between(start, end);
@@ -137,7 +139,7 @@ public final class SortingExperiment {
                         // If the durations are equal, save the one with the lower threshold
                         if (optimalDurations[index][k[index]] == null
                             || optimalDurations[index][k[index]].compareTo(duration) >= 0
-                            && optimalThresholds[index][k[index]].compareTo(u) > 0) {
+                            /* && optimalThresholds[index][k[index]].compareTo(u) > 0*/) {
                             optimalDurations[index][k[index]] = duration;
                             optimalThresholds[index][k[index]] = u;
                         }
@@ -204,9 +206,10 @@ public final class SortingExperiment {
      *
      * @return the average sorting time in milliseconds
      */
-    private static double averageSortingTimeInMilliseconds(int n,
-                                                           ListToIntFunction<Integer> function,
-                                                           int permutations) {
+    private static double averageSortingTimeInMilliseconds(
+        int n,
+        ListToIntFunction<Integer> function,
+        int permutations) {
         List<Integer> permutation = IntStream.rangeClosed(1, n).boxed().collect(Collectors.toList());
         MyCollections<Integer> mc = new MyCollections<>(function, Comparator.naturalOrder());
         List<Duration> durations = new ArrayList<>();
