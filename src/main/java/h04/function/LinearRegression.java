@@ -1,5 +1,7 @@
 package h04.function;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Fits a function to a set of data points.
  *
@@ -22,7 +24,7 @@ package h04.function;
 public class LinearRegression implements DoubleToIntFunctionFitter {
 
     @Override
-    public DoubleToIntFunction fitFunction(Integer[] y) {
+    public DoubleToIntFunction fitFunction(@Nullable Integer[] y) {
         double sumX = 0;
         double sumY = 0;
         // Non null samples

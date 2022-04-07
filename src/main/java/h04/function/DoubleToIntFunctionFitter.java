@@ -1,5 +1,7 @@
 package h04.function;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Fits a function to a set of data points.
  *
@@ -14,5 +16,5 @@ public interface DoubleToIntFunctionFitter {
      *
      * @return the fitted function
      */
-    DoubleToIntFunction fitFunction(Integer[] y);
+    DoubleToIntFunction fitFunction(@Nullable Integer[] y);
 }

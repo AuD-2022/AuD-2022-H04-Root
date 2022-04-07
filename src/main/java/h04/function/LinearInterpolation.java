@@ -1,5 +1,7 @@
 package h04.function;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Fits a function to a set of data points.
  *
@@ -17,7 +19,7 @@ package h04.function;
 public class LinearInterpolation implements DoubleToIntFunctionFitter {
 
     @Override
-    public DoubleToIntFunction fitFunction(Integer[] y) {
+    public DoubleToIntFunction fitFunction(@Nullable Integer[] y) {
         double[] interpolation = new double[y.length];
         for (int i = 0; i < y.length; i++) {
             if (y[i] != null) {
