@@ -9,6 +9,7 @@ import h04.function.LinearInterpolation;
 import h04.function.LinearRegression;
 import h04.function.ListToIntFunction;
 import h04.util.Permutations;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -86,11 +87,11 @@ public final class SortingExperiment {
      *
      * @return the most optimal threshold for runs and inversions
      */
-    public static Integer[][] computeOptimalThresholds(int n, int swaps, int bins, double gamma) {
+    public static @Nullable Integer[][] computeOptimalThresholds(int n, int swaps, int bins, double gamma) {
         Integer[][] optimalThresholds = new Integer[2][bins];
         Duration[][] optimalDurations = new Duration[2][bins];
 
-        List<Integer> p = IntStream.rangeClosed(1, n).boxed().collect(Collectors.toList());
+        List<Integer> p = IntStream.rangeClosed(1, n).boxed().toList();
         int numberOfThresholds = (int) Math.ceil(Math.log(n) / Math.log(2));
         boolean[][][] observedThresholds = new boolean[2][bins][numberOfThresholds];
 
@@ -210,7 +211,7 @@ public final class SortingExperiment {
         int n,
         ListToIntFunction<Integer> function,
         int permutations) {
-        List<Integer> permutation = IntStream.rangeClosed(1, n).boxed().collect(Collectors.toList());
+        List<Integer> permutation = IntStream.rangeClosed(1, n).boxed().toList();
         MyCollections<Integer> mc = new MyCollections<>(function, Comparator.naturalOrder());
         List<Duration> durations = new ArrayList<>();
 

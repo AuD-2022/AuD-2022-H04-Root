@@ -309,8 +309,7 @@ public class MyCollections<T> {
      *
      * @return the list with the swapped elements
      */
-    private ListItem<T> swap(ListItem<T> head, ListItem<T> first, ListItem<T> second,
-                             boolean isHead) {
+    private ListItem<T> swap(ListItem<T> head, ListItem<T> first, ListItem<T> second, boolean isHead) {
         if (head == first && head == second) {
             /*
              * Case 1: Swap first with second element
@@ -325,6 +324,7 @@ public class MyCollections<T> {
              * f.next should point to the old s.next.next (f -> e3)
              * the new head next element should point to f since f should be the next element after s  (new head - e2 -> f)
              */
+            assert second.next != null;
             ListItem<T> newHead = second.next;
             first.next = second.next.next;
             newHead.next = first;
@@ -347,6 +347,7 @@ public class MyCollections<T> {
              *
              * s is the new head
              */
+            assert second.next != null;
             ListItem<T> newHead = second.next;
             ListItem<T> temp = second.next.next;
             newHead.next = first.next;
@@ -367,6 +368,8 @@ public class MyCollections<T> {
          * f.next.next should point to  s.next.next (ek -> em)
          * s.next.next should point to the old f.next.next.next (em -> ek)
          */
+        assert second.next != null;
+        assert first.next != null;
         ListItem<T> temp = first.next;
         first.next = second.next;
         second.next = temp;
@@ -390,13 +393,16 @@ public class MyCollections<T> {
         ListItem<T> current = head;
         // Skip elements before the lower bound
         for (int i = 0; i < low; i++) {
+            assert current != null;
             current = current.next;
         }
         // Find the maximum element in the sublist
+        assert current != null;
         T max = current.key;
         current = current.next;
         for (int i = low + 1; i <= high; i++) {
             // Update the maximum element (only get the latest maximum)
+            assert current != null;
             if (cmp.compare(max, current.key) <= 0) {
                 maxIndex = i;
                 max = current.key;

@@ -1,5 +1,7 @@
 package h04.collection;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * An instance of this class represents a sequence of list items (wrapped elements) of an ordered sequence that can be addressed
  * by means of a reference to the direct successor.
@@ -32,7 +34,7 @@ public class ListItem<T> {
     /**
      * The successor node of this list item.
      */
-    public ListItem<T> next;
+    public @Nullable ListItem<T> next;
 
     /**
      * Constructs and initializes an empty list item.
