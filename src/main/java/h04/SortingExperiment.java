@@ -88,8 +88,8 @@ public final class SortingExperiment {
      * @return the most optimal threshold for runs and inversions
      */
     public static @Nullable Integer[][] computeOptimalThresholds(int n, int swaps, int bins, double gamma) {
-        Integer[][] optimalThresholds = new Integer[2][bins];
-        Duration[][] optimalDurations = new Duration[2][bins];
+        @Nullable  Integer[][] optimalThresholds = new Integer[2][bins];
+        @Nullable  Duration[][] optimalDurations = new Duration[2][bins];
 
         List<Integer> p = IntStream.rangeClosed(1, n).boxed().toList();
         int numberOfThresholds = (int) Math.ceil(Math.log(n) / Math.log(2));
