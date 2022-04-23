@@ -88,10 +88,13 @@ public final class SortingExperiment {
      * @return the most optimal threshold for runs and inversions
      */
     public static @Nullable Integer[][] computeOptimalThresholds(int n, int swaps, int bins, double gamma) {
-        @Nullable  Integer[][] optimalThresholds = new Integer[2][bins];
-        @Nullable  Duration[][] optimalDurations = new Duration[2][bins];
+        @Nullable Integer[][] optimalThresholds = new Integer[2][bins];
+        @Nullable Duration[][] optimalDurations = new Duration[2][bins];
 
-        List<Integer> p = IntStream.rangeClosed(1, n).boxed().toList();
+        List<Integer> p = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) {
+            p.add(i);
+        }
         int numberOfThresholds = (int) Math.ceil(Math.log(n) / Math.log(2));
         boolean[][][] observedThresholds = new boolean[2][bins][numberOfThresholds];
 
@@ -211,9 +214,12 @@ public final class SortingExperiment {
         int n,
         ListToIntFunction<Integer> function,
         int permutations) {
-        List<Integer> permutation = IntStream.rangeClosed(1, n).boxed().toList();
+        List<Integer> permutation = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) {
+            permutation.add(i);
+        }
         MyCollections<Integer> mc = new MyCollections<>(function, Comparator.naturalOrder());
-        List<Duration> durations = new ArrayList<>();
+        long totalTime = 0;
 
         for (int i = 0; i < permutations; i++) {
             // p'
@@ -225,9 +231,9 @@ public final class SortingExperiment {
             mc.sort(p);
             Instant end = Instant.now();
 
-            durations.add(Duration.between(start, end));
+            totalTime += Duration.between(start, end).toMillis();
         }
 
-        return durations.stream().mapToDouble(Duration::toMillis).average().orElse(Double.NaN);
+        return (double) totalTime / permutations;
     }
 }
