@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * Represents a function that accepts a double-valued argument and produces an int-valued result.
  *
- * <p>The function values are calculated by the ratio of runs and the number elements.
+ * <p>The function values are calculated by the ratio of runs and the number of elements.
  *
  * @author Nhan Huynh
  */
