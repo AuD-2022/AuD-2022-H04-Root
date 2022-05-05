@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Represents a function that accepts a double-valued argument and produces an int-valued result.
+ * Represents a function that accepts a list-valued argument and produces an int-valued result.
  *
  * <p>The function values are calculated by the ratio of inversions and the maximum number of inversions.
  *
