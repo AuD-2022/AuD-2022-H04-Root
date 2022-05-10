@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
  *    y = f(x)
  *    x^hat = sum(x_i) / samples
  *    y^hat = sum(y_i) / samples
- *    beta_1 = sum_i^n [(x_i - x hat)^2 * (y_i - y hat)] / sum_i^n [(x_i - x hat)^2]
+ *    beta_1 = sum_i^n [(x_i - x hat)^* (y_i - y hat)] / sum_i^n [(x_i - x hat)^2]
  *    beta_2 = y^hat - beta_1 * x^hat
  *
  *    Fitter(x, y) = beta_1 * x + beta_2
