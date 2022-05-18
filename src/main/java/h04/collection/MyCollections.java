@@ -383,8 +383,8 @@ public class MyCollections<T> {
      * Returns the index of the last maximum element in the list.
      *
      * @param head the list to search
-     * @param low  the lower bound of the sublist
-     * @param high the upper bound of the sublist
+     * @param low  the lower bound of the sublist (inclusive)
+     * @param high the upper bound of the sublist (inclusive)
      *
      * @return the index of the last maximum element in the list
      */
