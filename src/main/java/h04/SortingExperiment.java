@@ -11,6 +11,8 @@ import h04.function.ListToIntFunction;
 import h04.util.Permutations;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -99,6 +102,7 @@ public final class SortingExperiment {
         boolean[][][] observedThresholds = new boolean[2][bins][numberOfThresholds];
 
         Comparator<Integer> cmp = Integer::compareTo;
+        ThreadMXBean bean = ManagementFactory.getThreadMXBean();
 
         for (int iteration = 1; iteration <= 2; iteration++) {
             for (int exponent = 0; exponent < numberOfThresholds; exponent++) {
@@ -128,12 +132,13 @@ public final class SortingExperiment {
                         new ConstantListToIntFunction<>(u), cmp
                     );
 
-                    // Time measurement
-                    Instant start = Instant.now();
+                    // Instant start = Instant.now();
+                    long startCpu = bean.getCurrentThreadCpuTime();
                     mc.sort(pd);
-                    Instant end = Instant.now();
+                    // Instant end = Instant.now();
+                    long endCpu = bean.getCurrentThreadCpuTime();
                     assert isSorted(pd, cmp) : "The list is not sorted";
-                    Duration duration = Duration.between(start, end);
+                    Duration duration = Duration.ofNanos(endCpu - startCpu);
 
                     for (int index = 0; index < k.length; index++) {
                         // true if the threshold is not yet observed
@@ -220,6 +225,7 @@ public final class SortingExperiment {
         }
         MyCollections<Integer> mc = new MyCollections<>(function, Comparator.naturalOrder());
         long totalTime = 0;
+        ThreadMXBean bean = ManagementFactory.getThreadMXBean();
 
         for (int i = 0; i < permutations; i++) {
             // p'
@@ -227,11 +233,13 @@ public final class SortingExperiment {
             Collections.shuffle(p);
 
             // Time measurement
-            Instant start = Instant.now();
+            // Instant start = Instant.now();
+            long startCpu = bean.getCurrentThreadCpuTime();
             mc.sort(p);
-            Instant end = Instant.now();
+            // Instant end = Instant.now();
+            long endCpu = bean.getCurrentThreadCpuTime();
 
-            totalTime += Duration.between(start, end).toMillis();
+            totalTime +=  Duration.ofNanos(endCpu - startCpu).toMillis();
         }
 
         return (double) totalTime / permutations;

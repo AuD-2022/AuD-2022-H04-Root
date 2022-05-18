@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * Represents a function that accepts a list-valued argument and produces an int-valued result.
  *
- * <p>he function values are calculated by the ratio of runs to the number of elements.
+ * <p>The function values are calculated by the ratio of runs to the number of elements.
  *
  * @author Nhan Huynh
  */
