@@ -11,10 +11,10 @@ import org.jetbrains.annotations.Nullable;
  *    samples = number of non null data points
  *    x = i / (n - 1)
  *    y = f(x)
- *    x^hat = sum(x_i) / samples
- *    y^hat = sum(y_i) / samples
+ *    x^bar = sum(x_i) / samples
+ *    y^bar = sum(y_i) / samples
  *    beta_1 = sum_i^n [(x_i - x hat)^* (y_i - y hat)] / sum_i^n [(x_i - x hat)^2]
- *    beta_2 = y^hat - beta_1 * x^hat
+ *    beta_2 = y^bar - beta_1 * x^bar
  *
  *    Fitter(x, y) = beta_1 * x + beta_2
  * }</pre>
@@ -38,9 +38,9 @@ public class LinearRegression implements DoubleToIntFunctionFitter {
                 samples++;
             }
         }
-        // x^hat  = average of all x values (not null)
+        // x^bar  = average of all x values (not null)
         double averageX = sumX / samples;
-        // y^hat  = average of all y values (not null)
+        // y^bar  = average of all y values (not null)
         double averageY = sumY / samples;
 
         // sum_i^n [(x_i - x hat)^2 * (y_i - y hat)]
@@ -57,7 +57,7 @@ public class LinearRegression implements DoubleToIntFunctionFitter {
 
         // beta_1 = sum_i^n [(x_i - x hat)^2 * (y_i - y hat)] / sum_i^n [(x_i - x hat)^2]
         double beta1 = sumXY / sumXX;
-        // beta_2 = y^hat - beta_1 * x^hat
+        // beta_2 = y^bar - beta_1 * x^bar
         double beta2 = averageY - beta1 * averageX;
         return new LinearDoubleToIntFunction(beta1, beta2);
     }
