@@ -61,21 +61,33 @@ public final class SortingExperiment {
         LinearInterpolation interpolation = new LinearInterpolation();
 
         Comparator<Integer> cmp = Comparator.naturalOrder();
-        Map<String, FunctionOnDegreeOfDisorder<Integer>> functions = Map.of(
-            "Linear regression ratio of runs",
-            new FunctionOnRatioOfRuns<>(cmp, regression.fitFunction(optimalThresholds[0])),
-            "Linear interpolation ratio of runs",
-            new FunctionOnRatioOfRuns<>(cmp, interpolation.fitFunction(optimalThresholds[0])),
-            "Linear regression ratio of inversions",
-            new FunctionOnRatioOfInversions<>(cmp, regression.fitFunction(optimalThresholds[1])),
-            "Linear interpolation ratio of inversions",
-            new FunctionOnRatioOfInversions<>(cmp, interpolation.fitFunction(optimalThresholds[1]))
-        );
 
-        for (Map.Entry<String, FunctionOnDegreeOfDisorder<Integer>> entry : functions.entrySet()) {
-            double time = averageSortingTimeInMilliseconds(n, entry.getValue(), permutations);
-            System.out.printf("%s: average elapsed time: %.2f ms\n", entry.getKey(), time);
-        }
+        String title;
+        double time;
+
+        // Linear regression ratio of runs
+        title = "Linear regression ratio of runs";
+        time = averageSortingTimeInMilliseconds(n, new FunctionOnRatioOfRuns<>(cmp, regression.fitFunction(optimalThresholds[0])),
+            permutations);
+        System.out.printf("%s: average elapsed time: %.2f ms\n", title, time);
+
+        // Linear interpolation ratio of runs
+        title = "Linear interpolation ratio of runs";
+        time = averageSortingTimeInMilliseconds(n, new FunctionOnRatioOfRuns<>(cmp,
+            interpolation.fitFunction(optimalThresholds[0])), permutations);
+        System.out.printf("%s: average elapsed time: %.2f ms\n", title, time);
+
+        // Linear regression ratio of runs
+        title = "Linear regression ratio of inversions";
+        time = averageSortingTimeInMilliseconds(n, new FunctionOnRatioOfInversions<>(cmp,
+            regression.fitFunction(optimalThresholds[1])), permutations);
+        System.out.printf("%s: average elapsed time: %.2f ms\n", title, time);
+
+        // Linear interpolation ratio of inversions
+        title = "Linear interpolation ratio of inversions";
+        time = averageSortingTimeInMilliseconds(n, new FunctionOnRatioOfInversions<>(cmp,
+            interpolation.fitFunction(optimalThresholds[1])), permutations);
+        System.out.printf("%s: average elapsed time: %.2f ms\n", title, time);
     }
 
 
@@ -239,7 +251,7 @@ public final class SortingExperiment {
             // Instant end = Instant.now();
             long endCpu = bean.getCurrentThreadCpuTime();
 
-            totalTime +=  Duration.ofNanos(endCpu - startCpu).toMillis();
+            totalTime += Duration.ofNanos(endCpu - startCpu).toMillis();
         }
 
         return (double) totalTime / permutations;
