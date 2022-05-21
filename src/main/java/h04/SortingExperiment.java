@@ -50,28 +50,26 @@ public final class SortingExperiment {
         int bins = 100;
         double gamma = 0.5;
 
-        int permutations = 1000;
-
         Integer[][] optimalThresholds = computeOptimalThresholds(n, swaps, bins, gamma);
         System.out.println("Optimal thresholds (Runs, Inversions):");
         System.out.println(Arrays.toString(optimalThresholds[0]));
         System.out.println(Arrays.toString(optimalThresholds[1]));
 
-        LinearRegression regression = new LinearRegression();
-        LinearInterpolation interpolation = new LinearInterpolation();
-
         Comparator<Integer> cmp = Comparator.naturalOrder();
 
+        int permutations = 1000;
         String title;
         double time;
 
         // Linear regression ratio of runs
+        LinearRegression regression = new LinearRegression();
         title = "Linear regression ratio of runs";
         time = averageSortingTimeInMilliseconds(n, new FunctionOnRatioOfRuns<>(cmp, regression.fitFunction(optimalThresholds[0])),
             permutations);
         System.out.printf("%s: average elapsed time: %.2f ms\n", title, time);
 
         // Linear interpolation ratio of runs
+        LinearInterpolation interpolation = new LinearInterpolation();
         title = "Linear interpolation ratio of runs";
         time = averageSortingTimeInMilliseconds(n, new FunctionOnRatioOfRuns<>(cmp,
             interpolation.fitFunction(optimalThresholds[0])), permutations);
