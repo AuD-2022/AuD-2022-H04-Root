@@ -2,6 +2,7 @@ package h04.collection;
 
 import h04.function.ListToIntFunction;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -233,6 +234,17 @@ public class MyCollections<T> {
         return head;
     }
 
+    public static void main(String[] args) {
+        var c = new MyCollections<Integer>(elements -> 100000, Comparator.naturalOrder());
+
+        var list = new ArrayList<>(List.of(8, 2, 3, 7, 1));
+        var item = c.listToListItem(list);
+        item = c.selectionSortInPlace(item);
+        c.listItemToList(item, list);
+        System.out.println(list);
+
+    }
+
     /**
      * Sorts the list in place using the selection sort algorithm.
      *
@@ -241,174 +253,216 @@ public class MyCollections<T> {
      * @return the sorted list
      */
     private ListItem<T> selectionSortInPlace(ListItem<T> head) {
-        ListItem<T> sorted = head;
-        int size = 0;
-        for (ListItem<T> current = head; current != null; current = current.next) {
-            size++;
-        }
-        for (int i = size - 1; i > 0; i--) {
-            // Get maximum element index that should be sorted
-            int index = getMaximumIndex(sorted, 0, i);
-
-            // Sort element and fix violation of the sorted property (in place)
-            if (index != i) {
-                sorted = swap(sorted, index, i);
+        ListItem<T> sorted = null;
+        ListItem<T> tail = null;
+        ListItem<T> unsorted = head;
+        // Decouple elements from the unsorted sequence to the sorted sequence until the unsorted sequence = sorted
+        while (unsorted != null) {
+            // Find the maximum element
+            // Since we need to decouple it from the sequence, we need to change the pointer of the previous node
+            ListItem<T> prevMax = null;
+            T max = unsorted.key;
+            for (ListItem<T> other = unsorted; other.next != null; other = other.next) {
+                // Found new maximum
+                if (cmp.compare(other.next.key, max) < 0) {
+                    prevMax = other;
+                    max = prevMax.next.key;
+                }
             }
+
+            ListItem<T> toSort;
+            if (prevMax == null) {
+                // If the head element is the maximum element, the new head is its successor
+                toSort = head;
+                head = head.next;
+                toSort.next = null;
+            } else {
+                // Else we decouple the previous node successor pointer to the maximum element
+                // and the successor pointer of the maximum node
+                toSort = prevMax.next;
+                prevMax.next = prevMax.next.next;
+                toSort.next = null;
+            }
+            // Insert to sorted sequence
+            if (tail == null) {
+                sorted = tail = toSort;
+            } else {
+                tail = tail.next = toSort;
+            }
+            // Each iteration reduce the size of the unsorted sequence by one
+            unsorted = head;
         }
         return sorted;
     }
-
-    /**
-     * Swaps two elements in the list.
-     *
-     * @param head the list to swap
-     * @param i    the index of the first element
-     * @param j    the index of the second element
-     *
-     * @return the list with the swapped elements
-     */
-    private ListItem<T> swap(ListItem<T> head, int i, int j) {
-        // Swapping same elements is a no-op
-        if (i == j) {
-            return head;
-        }
-
-        // First index is smaller than second index
-        int min = Math.min(i, j);
-        int max = Math.max(i, j);
-
-        ListItem<T> low = null;
-        ListItem<T> high = null;
-
-        // Retrieve the elements before the elements indices to swap
-        // Index 0 does not have a previous index (special case
-        if (i == 0) {
-            low = head;
-        }
-        int index = 0;
-        for (ListItem<T> current = head; current != null && index < max; current = current.next) {
-            // Always get the previous element in order to adjust references
-            index++;
-            if (index == min) {
-                low = current;
-            }
-            if (index == max) {
-                high = current;
-            }
-        }
-        return swap(head, low, high, min == 0);
-    }
-
-    /**
-     * Swaps two elements in the list.
-     *
-     * @param head   the list to swap
-     * @param first  the element before the first element if possible
-     * @param second the element before the second element if possible
-     * @param isHead true if one of the elements is the head of the list
-     *
-     * @return the list with the swapped elements
-     */
-    private ListItem<T> swap(ListItem<T> head, ListItem<T> first, ListItem<T> second, boolean isHead) {
-        if (head == first && head == second) {
-            /*
-             * Case 1: Swap first with second element
-             * Elements to swap: e1 and e2
-             * f = first element to be swapped (points to head - since there is no previous element)
-             * s = second element to be swapped (points to head - since previous is head)
-             * -> Note that first and second always point to the previous element.
-             *
-             * Sequence: f/s -> e2 -> e3 -> ... -> en -> null
-             *
-             * s.next is the new head since the second element should be swapped with the first element (e2)
-             * f.next should point to the old s.next.next (f -> e3)
-             * the new head next element should point to f since f should be the next element after s  (new head - e2 -> f)
-             */
-            assert second.next != null;
-            ListItem<T> newHead = second.next;
-            first.next = second.next.next;
-            newHead.next = first;
-            return newHead;
-        }
-        if (head == first && isHead) {
-            /*
-             * Case 2: Swap first with any element
-             * Elements to swap: e2 and ek
-             * f = first element to be swapped (points to head - since there is no previous element)
-             * s = second element to be swapped (points to the previous element of the second element)
-             * -> Note that first and second always point to the previous element.
-             *
-             * Sequence: f -> e2 -> ... -> s -> ek -> em -> ... -> en -> null
-             *
-             * s.next is the new head since the second element should be swapped with the first element (ek)
-             * the next element of the new head should be first.next (ek -> e2)
-             * s.next should point to the first element (swap ek with f)
-             * f.next should point to the old s.next.next (s -> f -> em)
-             *
-             * s is the new head
-             */
-            assert second.next != null;
-            ListItem<T> newHead = second.next;
-            ListItem<T> temp = second.next.next;
-            newHead.next = first.next;
-            second.next = first;
-            first.next = temp;
-            return newHead;
-        }
-        /*
-         * Case 3: Swap any element with any element
-         * Elements to swap: ek and em
-         * f = first element to be swapped (points to head - since there is no previous element)
-         * s = second element to be swapped (points to the previous element of the second element)
-         * -> Note that first and second always point to the previous element.
-         *
-         * Sequence: e1 -> ... -> f -> ej -> ek -> el-> s -> el -> em -> ... -> en -> null
-         * f.next should point to s.next (f -> em)
-         * s.next should point to the old f.next (s -> ej)
-         * f.next.next should point to  s.next.next (ek -> em)
-         * s.next.next should point to the old f.next.next.next (em -> ek)
-         */
-        assert second.next != null;
-        assert first.next != null;
-        ListItem<T> temp = first.next;
-        first.next = second.next;
-        second.next = temp;
-        temp = second.next.next;
-        second.next.next = first.next.next;
-        first.next.next = temp;
-        return head;
-    }
-
-    /**
-     * Returns the index of the last maximum element in the list.
-     *
-     * @param head the list to search
-     * @param low  the lower bound of the sublist (inclusive)
-     * @param high the upper bound of the sublist (inclusive)
-     *
-     * @return the index of the last maximum element in the list
-     */
-    private int getMaximumIndex(ListItem<T> head, int low, int high) {
-        int maxIndex = low;
-        ListItem<T> current = head;
-        // Skip elements before the lower bound
-        for (int i = 0; i < low; i++) {
-            assert current != null;
-            current = current.next;
-        }
-        // Find the maximum element in the sublist
-        assert current != null;
-        T max = current.key;
-        current = current.next;
-        for (int i = low + 1; i <= high; i++) {
-            // Update the maximum element (only get the latest maximum)
-            assert current != null;
-            if (cmp.compare(max, current.key) <= 0) {
-                maxIndex = i;
-                max = current.key;
-            }
-            current = current.next;
-        }
-        return maxIndex;
-    }
+//    private ListItem<T> selectionSortInPlace(ListItem<T> head) {
+//        ListItem<T> sorted = head;
+//        int size = 0;
+//        for (ListItem<T> current = head; current != null; current = current.next) {
+//            size++;
+//        }
+//        for (int i = size - 1; i > 0; i--) {
+//            // Get maximum element index that should be sorted
+//            int index = getMaximumIndex(sorted, 0, i);
+//
+//            // Sort element and fix violation of the sorted property (in place)
+//            if (index != i) {
+//                sorted = swap(sorted, index, i);
+//            }
+//        }
+//        return sorted;
+//    }
+//
+//    /**
+//     * Swaps two elements in the list.
+//     *
+//     * @param head the list to swap
+//     * @param i    the index of the first element
+//     * @param j    the index of the second element
+//     *
+//     * @return the list with the swapped elements
+//     */
+//    private ListItem<T> swap(ListItem<T> head, int i, int j) {
+//        // Swapping same elements is a no-op
+//        if (i == j) {
+//            return head;
+//        }
+//
+//        // First index is smaller than second index
+//        int min = Math.min(i, j);
+//        int max = Math.max(i, j);
+//
+//        ListItem<T> low = null;
+//        ListItem<T> high = null;
+//
+//        // Retrieve the elements before the elements indices to swap
+//        // Index 0 does not have a previous index (special case
+//        if (i == 0) {
+//            low = head;
+//        }
+//        int index = 0;
+//        for (ListItem<T> current = head; current != null && index < max; current = current.next) {
+//            // Always get the previous element in order to adjust references
+//            index++;
+//            if (index == min) {
+//                low = current;
+//            }
+//            if (index == max) {
+//                high = current;
+//            }
+//        }
+//        return swap(head, low, high, min == 0);
+//    }
+//
+//    /**
+//     * Swaps two elements in the list.
+//     *
+//     * @param head   the list to swap
+//     * @param first  the element before the first element if possible
+//     * @param second the element before the second element if possible
+//     * @param isHead true if one of the elements is the head of the list
+//     *
+//     * @return the list with the swapped elements
+//     */
+//    private ListItem<T> swap(ListItem<T> head, ListItem<T> first, ListItem<T> second, boolean isHead) {
+//        if (head == first && head == second) {
+//            /*
+//             * Case 1: Swap first with second element
+//             * Elements to swap: e1 and e2
+//             * f = first element to be swapped (points to head - since there is no previous element)
+//             * s = second element to be swapped (points to head - since previous is head)
+//             * -> Note that first and second always point to the previous element.
+//             *
+//             * Sequence: f/s -> e2 -> e3 -> ... -> en -> null
+//             *
+//             * s.next is the new head since the second element should be swapped with the first element (e2)
+//             * f.next should point to the old s.next.next (f -> e3)
+//             * the new head next element should point to f since f should be the next element after s  (new head - e2 -> f)
+//             */
+//            assert second.next != null;
+//            ListItem<T> newHead = second.next;
+//            first.next = second.next.next;
+//            newHead.next = first;
+//            return newHead;
+//        }
+//        if (head == first && isHead) {
+//            /*
+//             * Case 2: Swap first with any element
+//             * Elements to swap: e2 and ek
+//             * f = first element to be swapped (points to head - since there is no previous element)
+//             * s = second element to be swapped (points to the previous element of the second element)
+//             * -> Note that first and second always point to the previous element.
+//             *
+//             * Sequence: f -> e2 -> ... -> s -> ek -> em -> ... -> en -> null
+//             *
+//             * s.next is the new head since the second element should be swapped with the first element (ek)
+//             * the next element of the new head should be first.next (ek -> e2)
+//             * s.next should point to the first element (swap ek with f)
+//             * f.next should point to the old s.next.next (s -> f -> em)
+//             *
+//             * s is the new head
+//             */
+//            assert second.next != null;
+//            ListItem<T> newHead = second.next;
+//            ListItem<T> temp = second.next.next;
+//            newHead.next = first.next;
+//            second.next = first;
+//            first.next = temp;
+//            return newHead;
+//        }
+//        /*
+//         * Case 3: Swap any element with any element
+//         * Elements to swap: ek and em
+//         * f = first element to be swapped (points to head - since there is no previous element)
+//         * s = second element to be swapped (points to the previous element of the second element)
+//         * -> Note that first and second always point to the previous element.
+//         *
+//         * Sequence: e1 -> ... -> f -> ej -> ek -> el-> s -> el -> em -> ... -> en -> null
+//         * f.next should point to s.next (f -> em)
+//         * s.next should point to the old f.next (s -> ej)
+//         * f.next.next should point to  s.next.next (ek -> em)
+//         * s.next.next should point to the old f.next.next.next (em -> ek)
+//         */
+//        assert second.next != null;
+//        assert first.next != null;
+//        ListItem<T> temp = first.next;
+//        first.next = second.next;
+//        second.next = temp;
+//        temp = second.next.next;
+//        second.next.next = first.next.next;
+//        first.next.next = temp;
+//        return head;
+//    }
+//
+//    /**
+//     * Returns the index of the last maximum element in the list.
+//     *
+//     * @param head the list to search
+//     * @param low  the lower bound of the sublist (inclusive)
+//     * @param high the upper bound of the sublist (inclusive)
+//     *
+//     * @return the index of the last maximum element in the list
+//     */
+//    private int getMaximumIndex(ListItem<T> head, int low, int high) {
+//        int maxIndex = low;
+//        ListItem<T> current = head;
+//        // Skip elements before the lower bound
+//        for (int i = 0; i < low; i++) {
+//            assert current != null;
+//            current = current.next;
+//        }
+//        // Find the maximum element in the sublist
+//        assert current != null;
+//        T max = current.key;
+//        current = current.next;
+//        for (int i = low + 1; i <= high; i++) {
+//            // Update the maximum element (only get the latest maximum)
+//            assert current != null;
+//            if (cmp.compare(max, current.key) <= 0) {
+//                maxIndex = i;
+//                max = current.key;
+//            }
+//            current = current.next;
+//        }
+//        return maxIndex;
+//    }
 }
