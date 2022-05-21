@@ -2,6 +2,7 @@ package h04.collection;
 
 import h04.function.ListToIntFunction;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -233,6 +234,17 @@ public class MyCollections<T> {
         return head;
     }
 
+    public static void main(String[] args) {
+        var c = new MyCollections<Integer>(elements -> 100000, Comparator.naturalOrder());
+
+        var list = new ArrayList<>(List.of(8, 2, 3, 7, 1));
+        var item = c.listToListItem(list);
+        item = c.selectionSortInPlace(item);
+        c.listItemToList(item, list);
+        System.out.println(list);
+
+    }
+
     /**
      * Sorts the list in place using the selection sort algorithm.
      *
@@ -241,7 +253,46 @@ public class MyCollections<T> {
      * @return the sorted list
      */
     private ListItem<T> selectionSortInPlace(ListItem<T> head) {
-        return null;
+        ListItem<T> sorted = null;
+        ListItem<T> tail = null;
+        ListItem<T> unsorted = head;
+        // Decouple elements from the unsorted sequence to the sorted sequence until the unsorted sequence = sorted
+        while (unsorted != null) {
+            // Find the maximum element
+            // Since we need to decouple it from the sequence, we need to change the pointer of the previous node
+            ListItem<T> prevMax = null;
+            T max = unsorted.key;
+            for (ListItem<T> other = unsorted; other.next != null; other = other.next) {
+                // Found new maximum
+                if (cmp.compare(other.next.key, max) < 0) {
+                    prevMax = other;
+                    max = prevMax.next.key;
+                }
+            }
+
+            ListItem<T> toSort;
+            if (prevMax == null) {
+                // If the head element is the maximum element, the new head is its successor
+                toSort = head;
+                head = head.next;
+                toSort.next = null;
+            } else {
+                // Else we decouple the previous node successor pointer to the maximum element
+                // and the successor pointer of the maximum node
+                toSort = prevMax.next;
+                prevMax.next = prevMax.next.next;
+                toSort.next = null;
+            }
+            // Insert to sorted sequence
+            if (tail == null) {
+                sorted = tail = toSort;
+            } else {
+                tail = tail.next = toSort;
+            }
+            // Each iteration reduce the size of the unsorted sequence by one
+            unsorted = head;
+        }
+        return sorted;
     }
 //    private ListItem<T> selectionSortInPlace(ListItem<T> head) {
 //        ListItem<T> sorted = head;
