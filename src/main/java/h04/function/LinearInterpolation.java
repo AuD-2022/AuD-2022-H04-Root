@@ -27,9 +27,11 @@ public class LinearInterpolation implements DoubleToIntFunctionFitter {
             } else {
                 // Find the next left and right known function values
                 double leftValue = 0;
+                int leftIndex = 0;
                 for (int j = i - 1; j >= 0; j--) {
                     if (y[j] != null) {
                         leftValue = y[j];
+                        leftIndex = i;
                         break;
                     }
                 }
@@ -41,7 +43,7 @@ public class LinearInterpolation implements DoubleToIntFunctionFitter {
                     }
                 }
                 // Linearly interpolate
-                interpolation[i] = leftValue + (rightValue - leftValue) * (i - leftValue);
+                interpolation[i] = leftValue + (rightValue - leftValue) * ((double) i / (y.length - 1) - leftIndex);
             }
         }
 
