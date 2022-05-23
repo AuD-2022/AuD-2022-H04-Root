@@ -43,7 +43,7 @@ public class LinearInterpolation implements DoubleToIntFunctionFitter {
                     }
                 }
                 // Linearly interpolate
-                interpolation[i] = leftValue + (rightValue - leftValue) * ((double) i / (y.length - 1) - leftIndex);
+                interpolation[i] = leftValue + (rightValue - leftValue) * (i - leftIndex);
             }
         }
 
