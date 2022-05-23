@@ -33,7 +33,7 @@ public class LinearRegression implements DoubleToIntFunctionFitter {
         // Compute sum of X and Y in order to compute x and y hat
         for (int i = 0; i < y.length; i++) {
             if (y[i] != null) {
-                sumX += (double) i / y.length;
+                sumX += (double) i / (y.length - 1);
                 sumY += y[i];
                 samples++;
             }
