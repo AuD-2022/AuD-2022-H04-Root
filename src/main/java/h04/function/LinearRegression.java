@@ -49,7 +49,7 @@ public class LinearRegression implements DoubleToIntFunctionFitter {
         double sumXX = 0;
         for (int i = 0; i < y.length; i++) {
             if (y[i] != null) {
-                double x = (double) i / y.length;
+                double x = (double) i / (y.length - 1);
                 sumXY += (x - averageX) * (y[i] - averageY);
                 sumXX += Math.pow((x - averageX), 2);
             }
