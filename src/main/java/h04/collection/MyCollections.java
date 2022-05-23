@@ -254,43 +254,31 @@ public class MyCollections<T> {
      */
     private ListItem<T> selectionSortInPlace(ListItem<T> head) {
         ListItem<T> sorted = null;
-        ListItem<T> tail = null;
-        ListItem<T> unsorted = head;
-        // Decouple elements from the unsorted sequence to the sorted sequence until the unsorted sequence = sorted
-        while (unsorted != null) {
-            // Find the maximum element
-            // Since we need to decouple it from the sequence, we need to change the pointer of the previous node
-            ListItem<T> prevMax = null;
-            T max = unsorted.key;
-            for (ListItem<T> other = unsorted; other.next != null; other = other.next) {
-                // Found new maximum
-                if (cmp.compare(other.next.key, max) < 0) {
-                    prevMax = other;
-                    max = prevMax.next.key;
+        ListItem<T> rest = head;
+
+        while (rest != null) {
+            ListItem<T> maximum = rest;
+            ListItem<T> current = maximum;
+            ListItem<T> maximumPredecessor = null;
+            ListItem<T> currentPredecessor = null;
+
+            while (current != null) {
+                if (cmp.compare(maximum.key, current.key) < 0) {
+                    maximum = current;
+                    maximumPredecessor = currentPredecessor;
                 }
+                currentPredecessor = current;
+                current = current.next;
             }
 
-            ListItem<T> toSort;
-            if (prevMax == null) {
-                // If the head element is the maximum element, the new head is its successor
-                toSort = head;
-                head = head.next;
-                toSort.next = null;
+            if (maximumPredecessor == null) {
+                rest = rest.next;
             } else {
-                // Else we decouple the previous node successor pointer to the maximum element
-                // and the successor pointer of the maximum node
-                toSort = prevMax.next;
-                prevMax.next = prevMax.next.next;
-                toSort.next = null;
+                maximumPredecessor.next = maximum.next;
             }
-            // Insert to sorted sequence
-            if (tail == null) {
-                sorted = tail = toSort;
-            } else {
-                tail = tail.next = toSort;
-            }
-            // Each iteration reduce the size of the unsorted sequence by one
-            unsorted = head;
+
+            maximum.next = sorted;
+            sorted = maximum;
         }
         return sorted;
     }
