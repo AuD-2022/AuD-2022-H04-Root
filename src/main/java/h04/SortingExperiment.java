@@ -105,7 +105,7 @@ public final class SortingExperiment {
         @Nullable Duration[][] optimalDurations = new Duration[2][bins];
 
         List<Integer> p = new ArrayList<>(n);
-        for (int i = 0; i < n; i++) {
+        for (int i = 1; i <= n; i++) {
             p.add(i);
         }
         int numberOfThresholds = (int) Math.ceil(Math.log(n) / Math.log(2));
@@ -158,7 +158,7 @@ public final class SortingExperiment {
                         // If the durations are equal, save the one with the lower threshold
                         if (optimalDurations[index][k[index]] == null
                             || optimalDurations[index][k[index]].compareTo(duration) >= 0
-                            /* && optimalThresholds[index][k[index]].compareTo(u) > 0*/) {
+                             && optimalThresholds[index][k[index]].compareTo(u) > 0) {
                             optimalDurations[index][k[index]] = duration;
                             optimalThresholds[index][k[index]] = u;
                         }
@@ -230,7 +230,7 @@ public final class SortingExperiment {
         ListToIntFunction<Integer> function,
         int permutations) {
         List<Integer> permutation = new ArrayList<>(n);
-        for (int i = 0; i < n; i++) {
+        for (int i = 1; i <= n; i++) {
             permutation.add(i);
         }
         MyCollections<Integer> mc = new MyCollections<>(function, Comparator.naturalOrder());
