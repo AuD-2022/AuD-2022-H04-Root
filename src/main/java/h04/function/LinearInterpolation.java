@@ -31,7 +31,7 @@ public class LinearInterpolation implements DoubleToIntFunctionFitter {
                 for (int j = i - 1; j >= 0; j--) {
                     if (y[j] != null) {
                         leftValue = y[j];
-                        leftIndex = i;
+                        leftIndex = j;
                         break;
                     }
                 }
