@@ -2,17 +2,23 @@ package h04;
 
 import java.util.Arrays;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.ceil;
+import static java.lang.Math.floor;
+import static java.lang.Math.round;
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.*;
 
+import h04.JUnitUtils.IntArrayConverter;
 import h04.function.ArrayDoubleToIntFunction;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.converter.ConvertWith;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 class H1_1_1 {
 
     static final double DELTA = 1.0e-6;
-
+    static final double DELTA_TEST = 1. / 8.;
 
     int[] array1;
     ArrayDoubleToIntFunction function1;
