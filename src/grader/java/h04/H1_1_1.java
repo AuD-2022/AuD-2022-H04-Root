@@ -20,30 +20,23 @@ class H1_1_1 {
     static final double DELTA = 1.0e-6;
     static final double DELTA_TEST = 1. / 8.;
 
-    int[] array1;
-    ArrayDoubleToIntFunction function1;
-
-    @BeforeEach
-    void beforeEach() {
-        array1 = new int[] {660, 109, 481, 245, 838};
-        function1 = new ArrayDoubleToIntFunction(array1);
-    }
-
-    @Test
-    void test1() {
-        for (int i = 0; i < array1.length; i++) {
-            int expected = array1[i];
+    @ParameterizedTest
+    @CsvFileSource(resources = "/h1/arrays")
+    void test1(@ConvertWith(IntArrayConverter.class) int[] array) {
+        var function = new ArrayDoubleToIntFunction(array);
+        for (int i = 0; i < array.length; i++) {
+            int expected = array[i];
             // with negative difference
             if (i != 0) {
-                double value = ((double) i - DELTA) / (array1.length - 1);
-                int actual = function1.apply(value);
-                assertEqualsApply(array1, value, expected, actual);
+                double value = ((double) i - DELTA) / (array.length - 1);
+                int actual = function.apply(value);
+                assertEqualsApply(array, value, expected, actual);
             }
             // with positive difference
-            if (i != array1.length - 1) {
-                double value = ((double) i + DELTA) / (array1.length - 1);
-                int actual = function1.apply(value);
-                assertEqualsApply(array1, value, expected, actual);
+            if (i != array.length - 1) {
+                double value = ((double) i + DELTA) / (array.length - 1);
+                int actual = function.apply(value);
+                assertEqualsApply(array, value, expected, actual);
             }
             // without difference
             double value = (double) i / (array.length - 1);
