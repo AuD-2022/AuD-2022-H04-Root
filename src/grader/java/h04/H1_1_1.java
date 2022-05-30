@@ -10,20 +10,25 @@ import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.*;
 
 import h04.JUnitUtils.IntArrayConverter;
-import h04.function.ArrayDoubleToIntFunction;
+import h04.student.ArrayDoubleToIntFunctionStudent;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
 class H1_1_1 {
 
-    static final double DELTA = 1.0e-6;
+    static final double DELTA = 1e-6;
     static final double DELTA_TEST = 1. / 8.;
 
+    /**
+     * Checks if function fulfils criterion (a).
+     *
+     * @param array the array to test the function with
+     */
     @ParameterizedTest
     @CsvFileSource(resources = "/h1/arrays")
     void test1(@ConvertWith(IntArrayConverter.class) int[] array) {
-        var function = new ArrayDoubleToIntFunction(array);
+        var function = new ArrayDoubleToIntFunctionStudent(array);
         for (int i = 0; i < array.length; i++) {
             int expected = array[i];
             // with negative difference
@@ -45,10 +50,15 @@ class H1_1_1 {
         }
     }
 
+    /**
+     * Checks if function fulfuls criterion(b)
+     *
+     * @param array the array to test the function with
+     */
     @ParameterizedTest
     @CsvFileSource(resources = "/h1/arrays")
     void test2(@ConvertWith(IntArrayConverter.class) int[] array) {
-        var function = new ArrayDoubleToIntFunction(array);
+        var function = new ArrayDoubleToIntFunctionStudent(array);
         int n = array.length;
         for (double x = DELTA_TEST; x < n - 1; x += DELTA_TEST) {
             if (abs(x - round(x)) < DELTA) {
