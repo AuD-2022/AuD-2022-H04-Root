@@ -234,17 +234,6 @@ public class MyCollections<T> {
         return head;
     }
 
-    public static void main(String[] args) {
-        var c = new MyCollections<Integer>(elements -> 100000, Comparator.naturalOrder());
-
-        var list = new ArrayList<>(List.of(8, 2, 3, 7, 1));
-        var item = c.listToListItem(list);
-        item = c.selectionSortInPlace(item);
-        c.listItemToList(item, list);
-        System.out.println(list);
-
-    }
-
     /* **********************************************
      *         Solution - finding maximum           *
      ************************************************/
