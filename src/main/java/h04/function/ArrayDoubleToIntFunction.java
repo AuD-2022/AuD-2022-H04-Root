@@ -32,9 +32,7 @@ public class ArrayDoubleToIntFunction implements DoubleToIntFunction {
      */
     public ArrayDoubleToIntFunction(int[] elements) {
         this.elements = new int[elements.length];
-        for (int i = 0; i < elements.length; i++) {
-            this.elements[i] = elements[i];
-        }
+        System.arraycopy(elements, 0, this.elements, 0, elements.length);
     }
 
     /**
