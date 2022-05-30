@@ -26,24 +26,23 @@ public class LinearInterpolation implements DoubleToIntFunctionFitter {
                 interpolation[i] = y[i];
             } else {
                 // Find the next left and right known function values
-                double leftValue = 0;
-                int leftIndex = 0;
+                int left = 0;
                 for (int j = i - 1; j >= 0; j--) {
                     if (y[j] != null) {
-                        leftValue = y[j];
-                        leftIndex = j;
+                        left = j;
                         break;
                     }
                 }
-                double rightValue = 0;
+                int right = 0;
                 for (int j = i + 1; j < y.length; j++) {
                     if (y[j] != null) {
-                        rightValue = y[j];
+                        right = j;
                         break;
                     }
                 }
                 // Linearly interpolate
-                interpolation[i] = leftValue + (rightValue - leftValue) * (i - leftIndex);
+                //noinspection ConstantConditions
+                interpolation[i] = y[left] + (right - y[left]) * ((double) (i - left) / (right - left));
             }
         }
 
