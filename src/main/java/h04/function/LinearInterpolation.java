@@ -2,6 +2,8 @@ package h04.function;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+
 /**
  * Fits a function to a set of data points.
  *
@@ -20,37 +22,30 @@ public class LinearInterpolation implements DoubleToIntFunctionFitter {
 
     @Override
     public DoubleToIntFunction fitFunction(@Nullable Integer[] y) {
-        double[] interpolation = new double[y.length];
-        for (int i = 0; i < y.length; i++) {
-            if (y[i] != null) {
-                interpolation[i] = y[i];
+        Integer[] out = y;
+        int[] res = new int[y.length];
+        res[0] = y[0];
+        res[res.length - 1] = y[y.length - 1];
+        int i = 0;
+        while (i < out.length - 1) {
+            if (out[i] == null) {
+                int j = 0;
+                while (out[i + j] == null) j++;
+                for (int k = 0; k < j; k++) {
+                    double tmp = out[i - 1] +
+                        (out[i + j] - out[i - 1]) * (k + 1) / (j + 1);
+                    out[i + k] = (int) Math.ceil(tmp);
+                    res[i + k] = out[i + k];
+                }
+                i = i + j;
             } else {
-                // Find the next left and right known function values
-                int left = 0;
-                for (int j = i - 1; j >= 0; j--) {
-                    if (y[j] != null) {
-                        left = j;
-                        break;
-                    }
-                }
-                int right = 0;
-                for (int j = i + 1; j < y.length; j++) {
-                    if (y[j] != null) {
-                        right = j;
-                        break;
-                    }
-                }
-                // Linearly interpolate
-                //noinspection ConstantConditions
-                interpolation[i] = y[left] + (right - y[left]) * ((double) (i - left) / (right - left));
+                res[i] = y[i];
+                i++;
             }
         }
-
-        // Round all values
-        int[] rounded = new int[interpolation.length];
-        for (int i = 0; i < interpolation.length; i++) {
-            rounded[i] = (int) Math.round(interpolation[i]);
-        }
-        return new ArrayDoubleToIntFunction(rounded);
+        for (int n = 0; n < res.length; n++) System.out.print(res[n] + ", ");
+        return new ArrayDoubleToIntFunction(res);
     }
+
+
 }

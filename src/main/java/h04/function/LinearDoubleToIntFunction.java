@@ -32,6 +32,9 @@ public class LinearDoubleToIntFunction implements DoubleToIntFunction {
 
     @Override
     public int apply(double value) {
+        if (value < 0.0 || value > 1.0) {
+            throw new IllegalArgumentException("The function argument is not between 0.0 (inclusive) and 1.0 (inclusive)");
+        }
         return (int) Math.round(a * value + b);
     }
 }

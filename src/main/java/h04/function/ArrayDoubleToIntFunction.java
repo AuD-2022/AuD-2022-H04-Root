@@ -50,28 +50,24 @@ public class ArrayDoubleToIntFunction implements DoubleToIntFunction {
      */
     @Override
     public int apply(double value) {
-        double index = value * (elements.length - 1);
+        if (value < 0.0 || value > 1.0) {
+            throw new IllegalArgumentException("The function argument is not between 0.0 (inclusive) and 1.0 (inclusive)");
+        }
+
+        double x = value * (elements.length - 1);
         // Check if index has a maximum deviation of 10^-6 to a whole number and returns the element at that index
-        if (Math.abs(index - Math.round(index)) < DELTA) {
-            return elements[(int) Math.round(index)];
+        if (Math.abs(x - Math.round(x)) < DELTA) {
+            return elements[(int) Math.round(x)];
         }
 
         // If index is not an integer, interpolate between the two elements
-        int leftIndex = (int) Math.floor(index);
-        int rightIndex = (int) Math.ceil(index);
+        int x0 = (int) Math.floor(x);
+        int x1 = (int) Math.ceil(x);
 
-        double leftValue = elements[leftIndex];
-        double rightValue = elements[rightIndex];
+        double f0 = elements[x0];
+        double f1 = elements[x1];
 
-        /*
-         * f(x) = f_0 + [f_1 - f_0]/[x_1 - x_0] * (x - x_0)
-         * f = x * (n - 1)
-         * x = index
-         * f_0 = leftValue
-         * f_1 = rightValue
-         * x_0 = leftIndex
-         * x_1 = rightIndex
-         */
-        return (int) Math.round(leftValue + (rightValue - leftValue) * (index - leftIndex));
+        // f(x) = f_0 + [f_1 - f_0]/[x_1 - x_0] * (x - x_0)
+        return (int) Math.round(f0 + (f1 - f0) / (x1 - x0) * (x - x0));
     }
 }
