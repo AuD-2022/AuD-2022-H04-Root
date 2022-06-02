@@ -3,17 +3,21 @@ package h04;
 import java.util.concurrent.Callable;
 
 import static h04.TextConstants.NOT_IMPLEMENTED;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.opentest4j.AssertionFailedError;
 
 public class TUtils {
 
+    public static final String PATTERN_NOT_IMPLEMENTED = "H(\\d+(.\\d+)*) - not implemented";
+
     public static <R> R assertImplemented(Callable<R> r) {
         try {
             return assertImplementedT(r);
+        } catch (RuntimeException e) {
+            throw e;
         } catch (Exception e) {
-            // case may not occur
-            return null;
+            return fail("this case can not occur");
         }
     }
 
