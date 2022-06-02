@@ -1,16 +1,15 @@
 package h04;
 
-import java.util.Arrays;
+import java.util.stream.DoubleStream;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.ceil;
 import static java.lang.Math.floor;
 import static java.lang.Math.round;
-import static java.lang.String.format;
-import static org.junit.jupiter.api.Assertions.*;
 
 import h04.JUnitUtils.IntArrayConverter;
 import h04.student.ArrayDoubleToIntFunctionStudent;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -34,19 +33,16 @@ class H1_1_1 {
             // with negative difference
             if (i != 0) {
                 double value = ((double) i - DELTA) / (array.length - 1);
-                int actual = function.apply(value);
-                assertEqualsApply(array, value, expected, actual);
+                function.assertEqualsApply(value, expected);
             }
             // with positive difference
             if (i != array.length - 1) {
                 double value = ((double) i + DELTA) / (array.length - 1);
-                int actual = function.apply(value);
-                assertEqualsApply(array, value, expected, actual);
+                function.assertEqualsApply(value, expected);
             }
             // without difference
             double value = (double) i / (array.length - 1);
-            int actual = function.apply(value);
-            assertEqualsApply(array, value, expected, actual);
+            function.assertEqualsApply(value, expected);
         }
     }
 
@@ -70,12 +66,13 @@ class H1_1_1 {
             double f0 = array[x0];
             double f1 = array[x1];
             int expected = (int) round(f0 + ((f1 - f0) / (x1 - x0)) * (x - x0));
-            int actual = function.apply(value);
-            assertEqualsApply(array, value, expected, actual);
+            function.assertEqualsApply(value, expected);
         }
     }
 
-    void assertEqualsApply(int[] array, double value, int expected, int actual) {
-        assertEquals(expected, actual, format("apply(%s) differs for array %s", value, Arrays.toString(array)));
+    @Test
+    void test3() {
+        var function = new ArrayDoubleToIntFunctionStudent(new int[] {1, 2, 3});
+        DoubleStream.of(-1, -0.1, 1.1, 2).forEach(function::assertThrowsApply);
     }
 }
