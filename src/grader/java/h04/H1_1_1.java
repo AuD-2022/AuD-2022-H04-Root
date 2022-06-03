@@ -26,7 +26,7 @@ class H1_1_1 {
      */
     @ParameterizedTest
     @CsvFileSource(resources = "/h1/arrays")
-    void test1(@ConvertWith(IntArrayConverter.class) int[] array) {
+    public void t1(@ConvertWith(IntArrayConverter.class) int[] array) {
         var function = new ArrayDoubleToIntFunctionStudent(array);
         for (int i = 0; i < array.length; i++) {
             int expected = array[i];
@@ -53,7 +53,7 @@ class H1_1_1 {
      */
     @ParameterizedTest
     @CsvFileSource(resources = "/h1/arrays")
-    void test2(@ConvertWith(IntArrayConverter.class) int[] array) {
+    public void t2(@ConvertWith(IntArrayConverter.class) int[] array) {
         var function = new ArrayDoubleToIntFunctionStudent(array);
         int n = array.length;
         for (double x = DELTA_TEST; x < n - 1; x += DELTA_TEST) {
@@ -71,7 +71,7 @@ class H1_1_1 {
     }
 
     @Test
-    void test3() {
+    public void t3() {
         var function = new ArrayDoubleToIntFunctionStudent(new int[] {1, 2, 3});
         DoubleStream.of(-1, -0.1, 1.1, 2).forEach(function::assertThrowsApply);
     }
