@@ -26,10 +26,19 @@ public final class ArrayDoubleToIntFunctionStudent {
 
     public IllegalArgumentException assertThrowsApply(double value) {
         return TUtils.assertImplemented(
-            () -> assertThrows(IllegalArgumentException.class, () -> apply(value), format("apply(%s)", value)));
+            () -> assertThrows(
+                IllegalArgumentException.class,
+                () -> apply(value),
+                () -> format("apply(%s) for array=%s", value, Arrays.toString(array))
+            )
+        );
     }
 
     public void assertEqualsApply(double value, double expected) {
-        assertEquals(expected, apply(value), format("apply(%s) differs for array %s", value, Arrays.toString(array)));
+        assertEquals(
+            expected,
+            apply(value),
+            () -> format("apply(%s) differs for array=%s", value, Arrays.toString(array))
+        );
     }
 }
