@@ -4,9 +4,10 @@ import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.*;
 
 import h04.TUtils;
+import h04.function.DoubleToIntFunction;
 import h04.function.LinearDoubleToIntFunction;
 
-public final class LinearDoubleToIntFunctionStudent {
+public final class LinearDoubleToIntFunctionStudent implements DoubleToIntFunction {
 
     private final double a, b;
     private final LinearDoubleToIntFunction instance;
@@ -17,26 +18,17 @@ public final class LinearDoubleToIntFunctionStudent {
         this.instance = TUtils.assertImplemented(() -> new LinearDoubleToIntFunction(a, b));
     }
 
-    private int apply(double value) {
+    public int apply(double value) {
         return TUtils.assertImplemented(() -> instance.apply(value));
     }
 
 
     public IllegalArgumentException assertThrowsApply(double value) {
-        return TUtils.assertImplemented(
-            () -> assertThrows(
-                IllegalArgumentException.class,
-                () -> apply(value),
-                () -> format("apply(%s) for a=%s, b=%s", value, a, b)
-            )
-        );
+        return TUtils.assertImplemented(() -> assertThrows(IllegalArgumentException.class, () -> apply(value),
+            () -> format("apply(%s) for a=%s, b=%s", value, a, b)));
     }
 
     public void assertEqualsApply(double value, double expected) {
-        assertEquals(
-            expected,
-            apply(value),
-            () -> format("apply(%s) differs for a=%s, b=%s", value, a, b)
-        );
+        assertEquals(expected, apply(value), () -> format("apply(%s) differs for a=%s, b=%s", value, a, b));
     }
 }

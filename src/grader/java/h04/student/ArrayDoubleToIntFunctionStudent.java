@@ -8,8 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import h04.TUtils;
 import h04.function.ArrayDoubleToIntFunction;
+import h04.function.DoubleToIntFunction;
 
-public final class ArrayDoubleToIntFunctionStudent {
+public final class ArrayDoubleToIntFunctionStudent implements DoubleToIntFunction {
 
     private final int[] array;
     private final ArrayDoubleToIntFunction instance;
@@ -19,7 +20,7 @@ public final class ArrayDoubleToIntFunctionStudent {
         this.instance = TUtils.assertImplemented(() -> new ArrayDoubleToIntFunction(array));
     }
 
-    private int apply(double value) {
+    public int apply(double value) {
         return TUtils.assertImplemented(() -> instance.apply(value));
     }
 
