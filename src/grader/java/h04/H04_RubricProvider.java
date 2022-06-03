@@ -8,7 +8,7 @@ import org.sourcegrade.jagr.api.rubric.RubricProvider;
 public class H04_RubricProvider implements RubricProvider {
 
     public static final Rubric RUBRIC = Rubric.builder()
-        .title("H04")
+        .title("H04 | Hybride Sortieralgorithmen")
         .build();
 
     @Override
