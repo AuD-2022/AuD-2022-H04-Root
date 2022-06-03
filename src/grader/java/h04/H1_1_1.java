@@ -13,7 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
+@TestForSubmission("h04")
 class H1_1_1 {
 
     static final double DELTA = 1e-6;
@@ -25,7 +27,7 @@ class H1_1_1 {
      * @param array the array to test the function with
      */
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/arrays")
+    @CsvFileSource(resources = "/h04/arrays")
     public void t1(@ConvertWith(IntArrayConverter.class) int[] array) {
         var function = new ArrayDoubleToIntFunctionStudent(array);
         for (int i = 0; i < array.length; i++) {
@@ -52,7 +54,7 @@ class H1_1_1 {
      * @param array the array to test the function with
      */
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/arrays")
+    @CsvFileSource(resources = "/h04/arrays")
     public void t2(@ConvertWith(IntArrayConverter.class) int[] array) {
         var function = new ArrayDoubleToIntFunctionStudent(array);
         int n = array.length;
