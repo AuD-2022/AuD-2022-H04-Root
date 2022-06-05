@@ -1,5 +1,6 @@
 package h04.student;
 
+import java.util.Comparator;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -11,7 +12,7 @@ import h04.function.FunctionOnRatioOfRuns;
 public class FunctionOnRatioOfRunsStudent {
 
     public int apply(List<String> elements) {
-        var function = new FunctionOnRatioOfRuns<>(StringComparator.INSTANCE, new RatioToNumberFunction(elements.size()));
+        var function = new FunctionOnRatioOfRuns<String>(Comparator.naturalOrder(), new RatioToNumberFunction(elements.size()));
         return TUtils.assertImplemented(() -> function.apply(elements));
     }
 
