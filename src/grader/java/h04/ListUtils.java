@@ -17,7 +17,11 @@ import h04.collection.ListItem;
 public class ListUtils {
 
     public static <T> Stream<ListItem<T>> streamItems(ListItem<T> head) {
-        return Stream.iterate(head, Objects::nonNull, l -> l != null ? l.next : null);
+        return Stream.iterate(head, Objects::nonNull, l -> l != null ? l.next : null).limit(25);
+    }
+
+    public static <T> Stream<T> stream(ListItem<T> head) {
+        return streamItems(head).map(li -> li.key);
     }
 
     public static <T> Collector<T, ListItem<T>, ListItem<T>> listItemCollector() {
@@ -113,6 +117,10 @@ public class ListUtils {
                     return Set.of();
                 }
             });
+    }
+
+    public static Collector<CharSequence, ?, String> listToString() {
+        return Collectors.joining("|", "[", "]");
     }
 
     public static String toString(List<?> list) {
