@@ -44,6 +44,10 @@ public class MyCollectionsStudent<T> {
         return assertImplemented(() -> student.adaptiveMergeSortInPlace(head, threshold));
     }
 
+    public ListItem<T> split(ListItem<T> head, int optimalSize) {
+        return assertImplemented(() -> student.split(head, optimalSize));
+    }
+
     public static MyCollectionsStudent<String> forString() {
         return new MyCollectionsStudent<>(l -> 1, naturalOrder());
     }
