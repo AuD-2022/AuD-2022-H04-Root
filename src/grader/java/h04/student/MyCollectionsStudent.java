@@ -48,6 +48,14 @@ public class MyCollectionsStudent<T> {
         return assertImplemented(() -> student.split(head, optimalSize));
     }
 
+    public ListItem<T> merge(ListItem<T> left, ListItem<T> right) {
+        return assertImplemented(() -> student.merge(left, right));
+    }
+
+    public ListItem<T> selectionSortInPlace(ListItem<T> head) {
+        return assertImplemented(() -> student.selectionSortInPlace(head));
+    }
+
     public static MyCollectionsStudent<String> forString() {
         return new MyCollectionsStudent<>(l -> 1, naturalOrder());
     }
