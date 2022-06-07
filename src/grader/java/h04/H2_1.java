@@ -46,9 +46,9 @@ public class H2_1 {
     @ParameterizedTest
     @CsvFileSource(resources = "h2_1/alphabet")
     public void t2(@ConvertWith(StreamConverter.class) Stream<String> stream) {
-
+        var headReference = stream.toList();
         for (int over : new int[] {0, 1, 2, 10}) {
-            var head = stream.collect(listItemCollector());
+            var head = headReference.stream().collect(listItemCollector());
             var n = streamItems(head).count();
             var list = Stream.generate(() -> "X").limit(n + over).collect(toList());
             var headString = ListUtils.toString(head);
