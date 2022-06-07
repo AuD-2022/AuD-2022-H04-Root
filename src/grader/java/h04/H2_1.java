@@ -25,12 +25,12 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 
 public class H2_1 {
 
+    public MyCollectionsStudent<String> instance;
+
     @BeforeEach
     public void beforeEach() {
-        instance = new MyCollectionsStudent();
+        instance = MyCollectionsStudent.forString();
     }
-
-    public MyCollectionsStudent instance;
 
     @ParameterizedTest
     @CsvFileSource(resources = "h2_1/alphabet")
@@ -79,7 +79,7 @@ public class H2_1 {
             sorted.set(instance.tutor.adaptiveMergeSortInPlace(unsorted.get(), 1));
             return sorted.get();
         }).when(instance.student);
-        instance.adaptiveMergeSortInPlace(any(ListItem.class), anyInt());
+        instance.adaptiveMergeSortInPlace(any(), anyInt());
         doAnswer(i -> {
             assertSame(sorted.get(), i.getArgument(0), "1st parameter for listItemToList(ListItem<T>,List<T>)");
             assertSame(param, i.getArgument(1), "2nd parameter for listItemToList(ListItem<T>,List<T>)");

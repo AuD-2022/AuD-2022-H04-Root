@@ -1,41 +1,50 @@
 package h04.student;
 
+import java.util.Comparator;
 import java.util.List;
 
+import static h04.TUtils.assertImplemented;
 import static java.util.Comparator.naturalOrder;
 import static org.mockito.Mockito.spy;
 
-import h04.TUtils;
 import h04.collection.ListItem;
 import h04.collection.MyCollections;
+import h04.function.ListToIntFunction;
 import h04.tutor.MyCollectionsTutor;
 
-public class MyCollectionsStudent {
+public class MyCollectionsStudent<T> {
 
-    public final MyCollectionsTutor<String> tutor = new MyCollectionsTutor<>(l -> 0, naturalOrder());
+    public final MyCollections<T> student;
+    public final MyCollectionsTutor<T> tutor;
 
-    public final MyCollections<String> student;
-
-    public MyCollectionsStudent() {
-        this.student = spy(new MyCollections<>(l -> 1, naturalOrder()));
+    public MyCollectionsStudent(ListToIntFunction<T> function, Comparator<? super T> comparator) {
+        this.student = spy(new MyCollections<>(function, comparator));
+        this.tutor = new MyCollectionsTutor<>(function, comparator);
     }
 
-    public ListItem<String> listToListItem(List<String> list) {
-        return TUtils.getMethod(MyCollections.class, "listToListItem", List.class).callMethod(student, list);
+    public ListItem<T> listToListItem(List<T> list) {
+        return assertImplemented(() -> student.listToListItem(list));
     }
 
-    public ListItem<String> listItemToList(ListItem<String> head, List<String> list) {
-        return TUtils.getMethod(MyCollections.class, "listItemToList", ListItem.class, List.class)
-            .callMethod(student, head, list);
+    public void listItemToList(ListItem<T> head, List<T> list) {
+        assertImplemented(() -> {
+            student.listItemToList(head, list);
+            return null;
+        });
     }
 
-    public Void sort(List<String> list) {
-        TUtils.getMethod(MyCollections.class, "sort", List.class).callMethod(student, list);
-        return null;
+    public void sort(List<T> list) {
+        assertImplemented(() -> {
+            student.sort(list);
+            return null;
+        });
     }
 
-    public ListItem<String> adaptiveMergeSortInPlace(ListItem<?> head, int threshold) {
-        return TUtils.getMethod(MyCollections.class, "adaptiveMergeSortInPlace", ListItem.class, int.class)
-            .callMethod(student, head, threshold);
+    public ListItem<T> adaptiveMergeSortInPlace(ListItem<T> head, int threshold) {
+        return assertImplemented(() -> student.adaptiveMergeSortInPlace(head, threshold));
+    }
+
+    public static MyCollectionsStudent<String> forString() {
+        return new MyCollectionsStudent<>(l -> 1, naturalOrder());
     }
 }
