@@ -34,6 +34,7 @@ public class TUtils {
         }
     }
 
+    @Deprecated
     public static TutorMethod getMethod(Class<?> clazz, String name, Class<?>... types) {
         try {
             return new TutorMethod(clazz.getDeclaredMethod(name, types));
@@ -42,17 +43,18 @@ public class TUtils {
         }
     }
 
+    @Deprecated
     public static class TutorMethod {
 
         public final Method method;
 
         public TutorMethod(Method method) {
+            method.setAccessible(true);
             this.method = method;
         }
 
         @SuppressWarnings("unchecked")
         public <T> T callMethod(Object object, Object... arguments) {
-            method.setAccessible(true);
             try {
                 return (T) method.invoke(object, arguments);
             } catch (IllegalAccessException e) {
