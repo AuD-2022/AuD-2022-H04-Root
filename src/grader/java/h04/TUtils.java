@@ -13,14 +13,20 @@ public class TUtils {
 
     public static final String PATTERN_NOT_IMPLEMENTED = "H(\\d+(.\\d+)*) - not implemented";
 
-    public static <R> R assertImplemented(Callable<R> r) {
+    public static <R> R assertImplemented(Callable<R> r, boolean rethrow) {
         try {
             return assertImplementedT(r);
         } catch (RuntimeException e) {
-            throw e;
+            if (rethrow)
+                throw e;
+            return fail("an exception was thrown unexpectedly", e);
         } catch (Exception e) {
             return fail("this case can not occur");
         }
+    }
+
+    public static <R> R assertImplemented(Callable<R> callable) {
+        return assertImplemented(callable, false);
     }
 
     public static <C> C assertImplementedT(Callable<C> c) throws Exception {
