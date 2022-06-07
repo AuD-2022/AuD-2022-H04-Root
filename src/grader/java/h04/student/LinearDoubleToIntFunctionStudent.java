@@ -9,8 +9,8 @@ import h04.function.LinearDoubleToIntFunction;
 
 public final class LinearDoubleToIntFunctionStudent implements DoubleToIntFunction {
 
-    private final double a, b;
-    private final LinearDoubleToIntFunction instance;
+    public final double a, b;
+    public final LinearDoubleToIntFunction instance;
 
     public LinearDoubleToIntFunctionStudent(double a, double b) {
         this.a = a;
