@@ -18,7 +18,7 @@ public class FunctionOnRatioOfInversions<T> extends FunctionOnDegreeOfDisorder<T
     /**
      * The function to be applied to the ratio of runs.
      */
-    private final DoubleToIntFunction function;
+    public final DoubleToIntFunction function;
 
     /**
      * Constructs and initializes a {@code FunctionOnRatioOfInversions}.

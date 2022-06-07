@@ -14,7 +14,7 @@ public class ConstantListToIntFunction<T> implements ListToIntFunction<T> {
     /**
      * The constant value used by this function.
      */
-    private final int value;
+    public final int value;
 
     /**
      * Constructs and initializes a {@code ConstantListToIntFunction} with the specified constant value.

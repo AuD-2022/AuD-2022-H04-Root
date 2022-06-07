@@ -17,7 +17,7 @@ public final class Permutations {
     /**
      * Don't let anyone instantiate this class.
      */
-    private Permutations() {
+    public Permutations() {
     }
 
     /**
