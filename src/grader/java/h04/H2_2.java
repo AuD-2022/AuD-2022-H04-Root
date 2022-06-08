@@ -77,23 +77,6 @@ public class H2_2 {
         assertCorrectResultMerge(stream1, stream2);
     }
 
-    @ParameterizedTest
-    @CsvFileSource(resources = "h2_2/selectionSortInPlace_sorted")
-    public void t8(@ConvertWith(StreamConverter.class) Stream<String> stream) {
-        assertCorrectResultSelectionSortInPlace(stream);
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(resources = "h2_2/selectionSortInPlace_one_element_unsorted")
-    public void t9(@ConvertWith(StreamConverter.class) Stream<String> stream) {
-        assertCorrectResultSelectionSortInPlace(stream);
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(resources = "h2_2/selectionSortInPlace_multiple_elements_unsorted")
-    public void t10(@ConvertWith(StreamConverter.class) Stream<String> stream) {
-        assertCorrectResultSelectionSortInPlace(stream);
-    }
 
     public void assertCorrectSplit(Stream<String> stringStream, int firstIndexSecond) {
         var list = stringStream.toList();
