@@ -17,7 +17,7 @@ import h04.collection.ListItem;
 public class ListUtils {
 
     public static <T> Stream<ListItem<T>> streamItems(ListItem<T> head) {
-        return Stream.iterate(head, Objects::nonNull, l -> l != null ? l.next : null).limit(25);
+        return Stream.iterate(head, Objects::nonNull, l -> l != null ? l.next : null).limit(50);
     }
 
     public static <T> Stream<T> stream(ListItem<T> head) {
@@ -69,7 +69,7 @@ public class ListUtils {
     }
 
     public static String toString(ListItem<?> head) {
-        return toString(head, 1000);
+        return toString(head, 50);
     }
 
     public static String toString(ListItem<?> head, int expectedSize) {
