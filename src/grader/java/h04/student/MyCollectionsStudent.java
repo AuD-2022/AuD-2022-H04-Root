@@ -5,6 +5,9 @@ import java.util.List;
 
 import static h04.TUtils.assertImplemented;
 import static java.util.Comparator.naturalOrder;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.spy;
 
 import h04.collection.ListItem;
@@ -26,11 +29,19 @@ public class MyCollectionsStudent<T> {
         return assertImplemented(() -> student.listToListItem(list));
     }
 
+    public void listToListItemUseTutor() {
+        doAnswer(tutor::listToListItemByInvocation).when(student).listItemToList(any(), any());
+    }
+
     public void listItemToList(ListItem<T> head, List<T> list) {
         assertImplemented(() -> {
             student.listItemToList(head, list);
             return null;
         });
+    }
+
+    public void listItemToListUseTutor() {
+        doAnswer(tutor::listItemToListByInvocation).when(student).listItemToList(any(), any());
     }
 
     public void sort(List<T> list) {
@@ -40,20 +51,40 @@ public class MyCollectionsStudent<T> {
         });
     }
 
+    public void sortUseTutor() {
+        doAnswer(tutor::sortByInvocation).when(student).sort(any());
+    }
+
     public ListItem<T> adaptiveMergeSortInPlace(ListItem<T> head, int threshold) {
         return assertImplemented(() -> student.adaptiveMergeSortInPlace(head, threshold));
+    }
+
+    public void adaptiveMergeSortInPlaceUseTutor() {
+        doAnswer(tutor::adaptiveMergeSortInPlaceByInvocation).when(student).adaptiveMergeSortInPlace(any(), anyInt());
     }
 
     public ListItem<T> split(ListItem<T> head, int optimalSize) {
         return assertImplemented(() -> student.split(head, optimalSize));
     }
 
+    public void useReferenceForSplit() {
+        doAnswer(tutor::splitByInvocation).when(student).split(any(), anyInt());
+    }
+
     public ListItem<T> merge(ListItem<T> left, ListItem<T> right) {
         return assertImplemented(() -> student.merge(left, right));
     }
 
+    public void useRegerenceForMerge() {
+        doAnswer(tutor::mergeByInvocation).when(student).merge(any(), any());
+    }
+
     public ListItem<T> selectionSortInPlace(ListItem<T> head) {
         return assertImplemented(() -> student.selectionSortInPlace(head));
+    }
+
+    public void useReferenceForSelectionSortInPlace() {
+        doAnswer(tutor::selectionSortInPlaceByInvocation).when(student).selectionSortInPlace(any());
     }
 
     public static MyCollectionsStudent<String> forString() {
