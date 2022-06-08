@@ -48,6 +48,14 @@ public class H2_2 {
         assertAnchorAdaptiveMergeSortInPlace(list, threshold);
     }
 
+    @ParameterizedTest
+    @CsvFileSource(resources = "h2_2/adaptiveMergeSortInPlace_switch")
+    public void t4(@ConvertWith(StreamConverter.class) Stream<String> list, int threshold) {
+        assertSwitchAdaptiveMergeSortInPlace(list, threshold);
+    }
+
+    // TODO generell sortiert
+
     public void assertCorrectSplit(Stream<String> stringStream, int firstIndexSecond) {
         var list = stringStream.toList();
         var head = list.stream().collect(listItemCollector());
@@ -91,5 +99,41 @@ public class H2_2 {
             }
         ).when(instance.student).adaptiveMergeSortInPlace(any(), anyInt());
         instance.adaptiveMergeSortInPlace(list, threshold);
+    }
+
+    public void assertSwitchAdaptiveMergeSortInPlace(Stream<String> stringStream, int threshold) {
+        var list = stringStream.collect(listItemCollector());
+        var listString = ListUtils.toString(list);
+        instance.useReferenceForSplit();
+        instance.useReferenceForMerge();
+        var callCount = new AtomicInteger();
+        doAnswer(invocation -> {
+            callCount.incrementAndGet();
+            var listParameter = invocation.<ListItem<String>>getArgument(0);
+            var listParameterString = ListUtils.toString(list);
+            assertEquals(
+                listString,
+                listParameterString,
+                format("" +
+                        "wrong list for call of selectionSortInPlace for adaptiveMergeSortInPlace(%s,%s):" +
+                        "selectionSortInPlace(%s)",
+                    listString,
+                    threshold,
+                    listParameterString
+                ));
+            assertSame(
+                list,
+                listParameter,
+                format(
+                    "different list for call of selectionSortInPlace for adaptiveMergeSortInPlace(%s,%s)",
+                    listString,
+                    threshold
+                ));
+            return instance.tutor.selectionSortInPlace(listParameter);
+        }).when(instance.student).selectionSortInPlace(any());
+        instance.adaptiveMergeSortInPlace(list, threshold);
+        if (callCount.get() == 0) {
+            fail(format("no call of selectionSortInPlace: adaptiveMergeSortInPlace(%s,%s)", listString, threshold));
+        }
     }
 }
