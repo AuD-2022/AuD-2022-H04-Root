@@ -1,11 +1,13 @@
 package h04;
 
+import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import static h04.ListUtils.listItemCollector;
 import static h04.ListUtils.listToString;
 import static h04.ListUtils.stream;
+import static h04.ListUtils.streamItems;
 import static java.lang.String.format;
 import static java.util.stream.IntStream.range;
 import static org.junit.jupiter.api.Assertions.*;
@@ -76,17 +78,27 @@ public class H2_2 {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "h2_2/selectionSortInPlace")
+    @CsvFileSource(resources = "h2_2/selectionSortInPlace_sorted")
     public void t8(@ConvertWith(StreamConverter.class) Stream<String> stream) {
         assertCorrectResultSelectionSortInPlace(stream);
     }
 
-    // TODO generell sortiert
+    @ParameterizedTest
+    @CsvFileSource(resources = "h2_2/selectionSortInPlace_one_element_unsorted")
+    public void t9(@ConvertWith(StreamConverter.class) Stream<String> stream) {
+        assertCorrectResultSelectionSortInPlace(stream);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "h2_2/selectionSortInPlace_multiple_elements_unsorted")
+    public void t10(@ConvertWith(StreamConverter.class) Stream<String> stream) {
+        assertCorrectResultSelectionSortInPlace(stream);
+    }
 
     public void assertCorrectSplit(Stream<String> stringStream, int firstIndexSecond) {
         var list = stringStream.toList();
         var head = list.stream().collect(listItemCollector());
-        var itemList = ListUtils.streamItems(head).toList();
+        var itemList = streamItems(head).toList();
         var n = itemList.size();
         var optimalSize = (n + 1) / 2;
         var headRight = instance.split(head, optimalSize);
@@ -221,10 +233,8 @@ public class H2_2 {
     }
 
     public void assertCorrectResultMerge(Stream<String> stream1, Stream<String> stream2) {
-        var head1 = stream1.collect(ListUtils.listItemCollector());
-        var head2 = stream2.collect(ListUtils.listItemCollector());
-        var head1String = stream(head1).collect(listToString());
-        var head2String = stream(head2).collect(listToString());
+        var head1 = stream1.collect(listItemCollector());
+        var head2 = stream2.collect(listItemCollector());
         var expectedResultString = Stream.of(head1, head2).flatMap(ListUtils::stream).sorted().collect(listToString());
         var result = instance.merge(head1, head2);
         var actualResultString = stream(result).collect(listToString());
