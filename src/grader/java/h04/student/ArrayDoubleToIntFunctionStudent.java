@@ -29,7 +29,7 @@ public final class ArrayDoubleToIntFunctionStudent implements DoubleToIntFunctio
         return TUtils.assertImplemented(
             () -> assertThrows(
                 IllegalArgumentException.class,
-                () -> apply(value),
+                () -> instance.apply(value),
                 () -> format("apply(%s) for array=%s", value, Arrays.toString(array))
             )
         );
