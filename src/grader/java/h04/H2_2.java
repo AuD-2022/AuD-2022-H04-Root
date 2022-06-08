@@ -72,7 +72,7 @@ public class H2_2 {
         var listString = ListUtils.toString(list);
         instance.useReferenceForSelectionSortInPlace();
         instance.useReferenceForSplit();
-        instance.useRegerenceForMerge();
+        instance.useReferenceForMerge();
         var callCount = new AtomicInteger(0);
         doAnswer(invocation -> {
                 if (callCount.incrementAndGet() > 1) {

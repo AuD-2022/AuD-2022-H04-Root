@@ -75,7 +75,7 @@ public class MyCollectionsStudent<T> {
         return assertImplemented(() -> student.merge(left, right));
     }
 
-    public void useRegerenceForMerge() {
+    public void useReferenceForMerge() {
         doAnswer(tutor::mergeByInvocation).when(student).merge(any(), any());
     }
 
