@@ -7,6 +7,7 @@ import java.util.ListIterator;
 
 import h04.collection.ListItem;
 import h04.function.ListToIntFunction;
+import org.mockito.invocation.InvocationOnMock;
 
 public class MyCollectionsTutor<T> {
 
@@ -23,6 +24,11 @@ public class MyCollectionsTutor<T> {
         ListItem<T> unsorted = listToListItem(list);
         ListItem<T> sorted = adaptiveMergeSortInPlace(unsorted, function.apply(list));
         listItemToList(sorted, list);
+    }
+
+    public Void sortByInvocation(InvocationOnMock invocation) {
+        sort(invocation.getArgument(0));
+        return null;
     }
 
     public ListItem<T> listToListItem(List<T> list) {
@@ -45,12 +51,21 @@ public class MyCollectionsTutor<T> {
         return head;
     }
 
+    public ListItem<T> listToListItemByInvocation(InvocationOnMock invocation) {
+        return listToListItem(invocation.getArgument(0));
+    }
+
     public void listItemToList(ListItem<T> head, List<T> list) {
         ListIterator<T> iterator = list.listIterator();
         for (ListItem<T> current = head; current != null; current = current.next) {
             iterator.next();
             iterator.set(current.key);
         }
+    }
+
+    public Void listItemToListByInvocation(InvocationOnMock invocation) {
+        listItemToList(invocation.getArgument(0), invocation.getArgument(1));
+        return null;
     }
 
     public ListItem<T> adaptiveMergeSortInPlace(ListItem<T> head, int threshold) {
@@ -82,10 +97,11 @@ public class MyCollectionsTutor<T> {
         // ListItem<T> right = split(head, (size + 1) / 2, (runs + 1) / 2, runs % 2 == 1);
 
         // Otherwise if case (a) or (b) does not apply, recursively sort the sub-sequences using merge sort
-        return merge(
-            adaptiveMergeSortInPlace(head, threshold),
-            adaptiveMergeSortInPlace(right, threshold)
-        );
+        return merge(adaptiveMergeSortInPlace(head, threshold), adaptiveMergeSortInPlace(right, threshold));
+    }
+
+    public ListItem<T> adaptiveMergeSortInPlaceByInvocation(InvocationOnMock invocation) {
+        return adaptiveMergeSortInPlace(invocation.getArgument(0), invocation.getArgument(1));
     }
 
     public ListItem<T> split(ListItem<T> head, int optimalSize) {
@@ -98,8 +114,7 @@ public class MyCollectionsTutor<T> {
         ListItem<T> previous = head;
         // Since we start the loop at the second element, the counter starts at 2
         int size = 2;
-        for (ListItem<T> current = head.next; current != null; previous = current,
-            current = current.next, size++) {
+        for (ListItem<T> current = head.next; current != null; previous = current, current = current.next, size++) {
             if (cmp.compare(previous.key, current.key) <= 0) {
                 continue;
             }
@@ -125,6 +140,10 @@ public class MyCollectionsTutor<T> {
         ListItem<T> right = split.next;
         split.next = null;
         return right;
+    }
+
+    public ListItem<T> splitByInvocation(InvocationOnMock invocation) {
+        return split(invocation.getArgument(0), invocation.getArgument(1));
     }
 
     public ListItem<T> merge(ListItem<T> left, ListItem<T> right) {
@@ -167,6 +186,10 @@ public class MyCollectionsTutor<T> {
         return head;
     }
 
+    public ListItem<T> mergeByInvocation(InvocationOnMock invocation) {
+        return merge(invocation.getArgument(0), invocation.getArgument(1));
+    }
+
     public ListItem<T> selectionSortInPlace(ListItem<T> head) {
         ListItem<T> sorted = null;
         ListItem<T> unsorted = head;
@@ -196,5 +219,9 @@ public class MyCollectionsTutor<T> {
             sorted = maximum;
         }
         return sorted;
+    }
+
+    public ListItem<T> selectionSortInPlaceByInvocation(InvocationOnMock invocation) {
+        return selectionSortInPlace(invocation.getArgument(0));
     }
 }
