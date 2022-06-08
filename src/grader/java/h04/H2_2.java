@@ -54,6 +54,12 @@ public class H2_2 {
         assertSwitchAdaptiveMergeSortInPlace(list, threshold);
     }
 
+    @ParameterizedTest
+    @CsvFileSource(resources = "h2_2/adaptiveMergeSortInPlace_merge")
+    public void t5(@ConvertWith(StreamConverter.class) Stream<String> list, int threshold, int firstIndexR) {
+        assertMergeAdaptiveMergeSortInPlace(list, threshold, firstIndexR);
+    }
+
     // TODO generell sortiert
 
     public void assertCorrectSplit(Stream<String> stringStream, int firstIndexSecond) {
@@ -134,6 +140,45 @@ public class H2_2 {
         instance.adaptiveMergeSortInPlace(list, threshold);
         if (callCount.get() == 0) {
             fail(format("no call of selectionSortInPlace: adaptiveMergeSortInPlace(%s,%s)", listString, threshold));
+        }
+    }
+
+    public void assertMergeAdaptiveMergeSortInPlace(Stream<String> stringStream, int threshold, int firstIndexR) {
+        var list = stringStream.toList();
+        var n = list.size();
+        var head = list.stream().collect(listItemCollector());
+        var headStr = ListUtils.toString(head);
+        instance.useReferenceForSplit();
+        instance.useReferenceForSelectionSortInPlace();
+        var callCountMerge = new AtomicInteger();
+        doAnswer(invocation -> {
+            callCountMerge.incrementAndGet();
+            var listLActual = invocation.<ListItem<String>>getArgument(0);
+            var listRActual = invocation.<ListItem<String>>getArgument(1);
+            var listLStringExpected = range(0, firstIndexR).mapToObj(list::get).sorted().collect(listToString());
+            var listRStringExpected = range(firstIndexR, n).mapToObj(list::get).sorted().collect(listToString());
+            var listLStringActual = ListUtils.toString(listLActual);
+            var listRStringActual = ListUtils.toString(listRActual);
+            assertEquals(
+                listLStringExpected,
+                listLStringActual,
+                format("left list differs for call of merge: assertMergeAdaptiveMergeSortInPlace(%s,%s)", headStr, threshold));
+            assertEquals(
+                listRStringExpected,
+                listRStringActual,
+                format("right list differs for call of merge: assertMergeAdaptiveMergeSortInPlace(%s,%s)", headStr, threshold));
+            return instance.tutor.merge(listLActual, listRActual);
+        }).when(instance.student).merge(any(), any());
+        var callCountAdaptiveMergeSortInPlace = new AtomicInteger();
+        doAnswer(invocation -> {
+            if (callCountAdaptiveMergeSortInPlace.incrementAndGet() == 1) {
+                return invocation.callRealMethod();
+            }
+            return instance.tutor.adaptiveMergeSortInPlace(invocation.getArgument(0), invocation.getArgument(1));
+        }).when(instance.student).adaptiveMergeSortInPlace(any(), anyInt());
+        instance.adaptiveMergeSortInPlace(head, threshold);
+        if (callCountMerge.get() == 0) {
+            fail(format("no call of merge: adaptiveMergeSortInPlace(%s,%s)", headStr, threshold));
         }
     }
 }
