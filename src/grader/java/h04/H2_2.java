@@ -75,6 +75,12 @@ public class H2_2 {
         assertCorrectResultMerge(stream1, stream2);
     }
 
+    @ParameterizedTest
+    @CsvFileSource(resources = "h2_2/selectionSortInPlace")
+    public void t8(@ConvertWith(StreamConverter.class) Stream<String> stream) {
+        assertCorrectResultSelectionSortInPlace(stream);
+    }
+
     // TODO generell sortiert
 
     public void assertCorrectSplit(Stream<String> stringStream, int firstIndexSecond) {
@@ -227,4 +233,17 @@ public class H2_2 {
             actualResultString,
             format("result differs for merge(%s,%s)", head1, head2));
     }
+
+    public void assertCorrectResultSelectionSortInPlace(Stream<String> stream) {
+        var head = stream.collect(listItemCollector());
+        var headString = stream(head).collect(listToString());
+        var resultListExpected = streamItems(head).sorted(Comparator.comparing(i -> i.key)).toList();
+        var resultStreamExpected = resultListExpected.stream();
+        var resultStreamActual = streamItems(instance.selectionSortInPlace(head));
+        ListUtils.assertSameItems(
+            resultStreamExpected,
+            resultStreamActual,
+            format("result differs for selectionSortInPlace(%s)", headString));
+    }
+
 }
