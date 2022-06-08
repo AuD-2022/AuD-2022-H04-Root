@@ -60,6 +60,12 @@ public class H2_2 {
         assertMergeAdaptiveMergeSortInPlace(list, threshold, firstIndexR);
     }
 
+    @ParameterizedTest
+    @CsvFileSource(resources = "h2_2/adaptiveMergeSortInPlace")
+    public void t6(@ConvertWith(StreamConverter.class) Stream<String> list, int threshold) {
+        assertCorrectResultAdaptiveMergeSortInPlace(list, threshold);
+    }
+
     // TODO generell sortiert
 
     public void assertCorrectSplit(Stream<String> stringStream, int firstIndexSecond) {
@@ -180,5 +186,22 @@ public class H2_2 {
         if (callCountMerge.get() == 0) {
             fail(format("no call of merge: adaptiveMergeSortInPlace(%s,%s)", headStr, threshold));
         }
+    }
+
+    public void assertCorrectResultAdaptiveMergeSortInPlace(Stream<String> stringStream, int threshold) {
+        var list = stringStream.toList();
+        var n = list.size();
+        var head = list.stream().collect(listItemCollector());
+        var headString = ListUtils.toString(head);
+        instance.useReferenceForSplit();
+        instance.useReferenceForMerge();
+        instance.useReferenceForSelectionSortInPlace();
+        var actualResult = instance.adaptiveMergeSortInPlace(head, threshold);
+        var actualResultString = ListUtils.toString(actualResult);
+        var expectedResultString = list.stream().sorted().collect(listToString());
+        assertEquals(
+            expectedResultString,
+            actualResultString,
+            format("result differs for adaptiveMergeSortInPlace(%s,%s)", headString, threshold));
     }
 }

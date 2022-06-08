@@ -1,0 +1,14 @@
+A B C,1
+C B A,1
+A B C D E F G,1
+G F E D C B A,1
+C B A Z Y X C B A,1
+D C B A Z Y X C B A,1
+C B A Z Y X D C B A,1
+A B C,3
+C B A,3
+A B C D E F G,4
+G F E D C B A,4
+C B A Z Y X C B A,5
+D C B A Z Y X C B A,6
+C B A Z Y X D C B A,6
