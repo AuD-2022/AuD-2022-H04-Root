@@ -42,7 +42,7 @@ public class LinearInterpolation implements DoubleToIntFunctionFitter {
                 }
                 // Linearly interpolate
                 //noinspection ConstantConditions
-                interpolation[i] = y[left] + (right - y[left]) * ((double) (i - left) / (right - left));
+                interpolation[i] = y[left] + (y[right] - y[left]) * ((double) (i - left) / (right - left));
             }
         }
 
