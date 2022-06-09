@@ -2,6 +2,7 @@ package h04;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,13 +38,33 @@ public class JUnitUtils {
 
     public static class StreamConverter extends SimpleArgumentConverter {
 
+        private static final Function<String, String> defaultConverter = Function.identity();
+
+        private final Function<String, ?> converter;
+
+        public StreamConverter() {
+            this(defaultConverter);
+        }
+
+        public StreamConverter(Function<String, ?> converter) {
+            this.converter = converter;
+        }
+
         @Override
         public Object convert(Object source, Class<?> targetType) throws ArgumentConversionException {
             if (source instanceof String s && Stream.class.isAssignableFrom(targetType)) {
-                return Arrays.stream(s.split(" "));
+                return Arrays.stream(s.split(" ")).map(converter);
             } else {
                 throw new IllegalArgumentException();
             }
+        }
+
+        public static class IntStream extends StreamConverter {
+
+            public IntStream() {
+                super(s -> !s.equals("null") ? Integer.valueOf(s) : null);
+            }
+
         }
     }
 }
