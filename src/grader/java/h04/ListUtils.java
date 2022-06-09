@@ -12,7 +12,10 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import h04.collection.ListItem;
+import org.opentest4j.AssertionFailedError;
 
 public class ListUtils {
 
@@ -131,5 +134,24 @@ public class ListUtils {
         return streamItems(head).map(i -> i.key).collect(ListUtils.listItemCollector());
     }
 
+    public static <T> void assertSameItems(Stream<ListItem<T>> expected, Stream<ListItem<T>> actual, Supplier<String> message) {
+        var expectedList = expected.limit(50).toList();
+        var actualList = actual.limit(50).toList();
+        var stringExpected = expectedList.stream().map(i -> String.valueOf(i.key)).collect(listToString());
+        var stringActual = actualList.stream().map(i -> String.valueOf(i.key)).collect(listToString());
+        assertEquals(stringExpected, stringActual, message.get());
+        var expectedIterator = expectedList.iterator();
+        var actualIterator = expectedList.iterator();
+        while (expectedIterator.hasNext()) {
+            var expectedElement = expectedIterator.next();
+            var actualElement = actualIterator.next();
+            if (expectedElement != actualElement) {
+                throw new AssertionFailedError(message.get(), "no new ListItem objects", "new ListItem objects");
+            }
+        }
+    }
 
+    public static <T> void assertSameItems(Stream<ListItem<T>> expected, Stream<ListItem<T>> actual, String message) {
+        assertSameItems(expected, actual, () -> message);
+    }
 }
