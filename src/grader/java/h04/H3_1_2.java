@@ -18,14 +18,14 @@ public class H3_1_2 {
     LinearRegressionStudent instance = new LinearRegressionStudent();
 
     @ParameterizedTest
-    @CsvFileSource(resources = "h3_1_2/two_values")
+    @CsvFileSource(resources = "h3_1/LinearRegression_two_values")
     public void t1(
         @ConvertWith(IntStream.class) Stream<Integer> streamForArray, double expectedA, double expectedB) {
         assertCorrectFitFunction(streamForArray, expectedA, expectedB);
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "h3_1_2/multiple_values")
+    @CsvFileSource(resources = "h3_1/LinearRegression_multiple_values")
     public void t2(
         @ConvertWith(IntStream.class) Stream<Integer> streamForArray, double expectedA, double expectedB) {
         assertCorrectFitFunction(streamForArray, expectedA, expectedB);
