@@ -14,13 +14,13 @@ public class H1_2_1 {
     FunctionOnRatioOfRunsStudent function = new FunctionOnRatioOfRunsStudent();
 
     @ParameterizedTest
-    @CsvFileSource(resources = "h1_2_1/one_run")
+    @CsvFileSource(resources = "h1_2/one_run")
     public void t1(@ConvertWith(JUnitUtils.StreamConverter.class) Stream<String> stream) {
         function.assertEqualsApply(1, stream.collect(toList()));
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "h1_2_1/multiple_runs")
+    @CsvFileSource(resources = "h1_2/multiple_runs")
     public void t2(@ConvertWith(JUnitUtils.StreamConverter.class) Stream<String> list, int number) {
         function.assertEqualsApply(number, list.collect(toList()));
     }
