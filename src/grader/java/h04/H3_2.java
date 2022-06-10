@@ -1,9 +1,9 @@
 package h04;
 
-import h04.SortingExperiment;
-import h04.TUtils;
 import org.junit.jupiter.api.Test;
+import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
+@TestForSubmission("h04")
 public class H3_2 {
 
     @Test

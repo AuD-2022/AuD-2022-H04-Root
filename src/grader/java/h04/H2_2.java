@@ -26,7 +26,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
+@TestForSubmission("h04")
 public class H2_2 {
 
     public MyCollectionsStudent<String> instance;
@@ -94,15 +96,19 @@ public class H2_2 {
         instance.listToListItem(any());
         AtomicReference<ListItem<String>> sorted = new AtomicReference<>();
         doAnswer(i -> {
-            assertSame(unsorted.get(), i.getArgument(0), "1st parameter for adaptiveMergeSortInPlace(ListItem<T>,int) differs from expected 1st parameter");
-            assertEquals(1, (int) i.getArgument(1), "2nd parameter for adaptiveMergeSortInPlace(ListItem<T>,int) differs from expected 2nd parameter");
+            assertSame(unsorted.get(), i.getArgument(0),
+                "1st parameter for adaptiveMergeSortInPlace(ListItem<T>,int) differs from expected 1st parameter");
+            assertEquals(1, (int) i.getArgument(1),
+                "2nd parameter for adaptiveMergeSortInPlace(ListItem<T>,int) differs from expected 2nd parameter");
             sorted.set(instance.tutor.adaptiveMergeSortInPlace(unsorted.get(), 1));
             return sorted.get();
         }).when(instance.student);
         instance.adaptiveMergeSortInPlace(any(), anyInt());
         doAnswer(i -> {
-            assertSame(sorted.get(), i.getArgument(0), "1st parameter for listItemToList(ListItem<T>,List<T>) differs from expected 1st parameter");
-            assertSame(param, i.getArgument(1), "2nd parameter for listItemToList(ListItem<T>,List<T>) differs from expected 2nd parameter");
+            assertSame(sorted.get(), i.getArgument(0),
+                "1st parameter for listItemToList(ListItem<T>,List<T>) differs from expected 1st parameter");
+            assertSame(param, i.getArgument(1),
+                "2nd parameter for listItemToList(ListItem<T>,List<T>) differs from expected 2nd parameter");
             instance.tutor.listItemToList(sorted.get(), param);
             return null;
         }).when(instance.student);

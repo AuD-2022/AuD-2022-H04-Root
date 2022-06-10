@@ -12,7 +12,9 @@ import h04.student.LinearRegressionStudent;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
+@TestForSubmission("h04")
 public class H3_1_2 {
 
     LinearRegressionStudent instance = new LinearRegressionStudent();
