@@ -10,9 +10,10 @@ import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
 public class RubricUtils {
 
     @SafeVarargs
-    public static Criterion criterion(String description, Callable<Method>... methods) {
+    public static Criterion criterion(String description, int points, Callable<Method>... methods) {
         Criterion.Builder criterionBuilder = Criterion.builder();
         criterionBuilder.shortDescription(description);
+        criterionBuilder.maxPoints(points);
         Grader.TestAwareBuilder grader = Grader.testAwareBuilder();
         for (Callable<Method> m : methods) {
             grader = grader.requirePass(JUnitTestRef.ofMethod(m));
