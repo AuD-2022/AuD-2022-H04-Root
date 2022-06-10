@@ -40,7 +40,7 @@ public class H2_1 {
         var expected = ListUtils.toString(list);
         var listItem = instance.listToListItem(list);
         var actual = ListUtils.toString(listItem, n);
-        assertEquals(expected, actual, format("result of apply(%s) differs from expected result", expected));
+        assertEquals(expected, actual, format("result of listToListItem(%s) differs from expected result", expected));
     }
 
     @ParameterizedTest
