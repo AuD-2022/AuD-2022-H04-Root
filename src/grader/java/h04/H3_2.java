@@ -1,4 +1,4 @@
-package h04.tutor;
+package h04;
 
 import h04.SortingExperiment;
 import h04.TUtils;

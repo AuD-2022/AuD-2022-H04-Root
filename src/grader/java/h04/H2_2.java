@@ -1,7 +1,9 @@
 package h04;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 import static h04.ListUtils.listItemCollector;
@@ -9,6 +11,7 @@ import static h04.ListUtils.listToString;
 import static h04.ListUtils.stream;
 import static h04.ListUtils.streamItems;
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.range;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -19,6 +22,7 @@ import h04.JUnitUtils.StreamConverter;
 import h04.collection.ListItem;
 import h04.student.MyCollectionsStudent;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -75,6 +79,38 @@ public class H2_2 {
         @ConvertWith(StreamConverter.class) Stream<String> stream2
     ) {
         assertCorrectResultMerge(stream1, stream2);
+    }
+
+    @Test
+    public void t8() {
+        List<String> param = Stream.of("G", "F", "E", "D", "C", "B", "A").collect(toList());
+        var paramString = ListUtils.toString(param);
+        AtomicReference<ListItem<String>> unsorted = new AtomicReference<>();
+        doAnswer(i -> {
+            assertSame(param, i.getArgument(0), "parameter for listToListItem(ListItem<T>)");
+            unsorted.set(instance.tutor.listToListItem(param));
+            return unsorted.get();
+        }).when(instance.student);
+        instance.listToListItem(any());
+        AtomicReference<ListItem<String>> sorted = new AtomicReference<>();
+        doAnswer(i -> {
+            assertSame(unsorted.get(), i.getArgument(0), "1st parameter for adaptiveMergeSortInPlace(ListItem<T>,int) differs from expected 1st parameter");
+            assertEquals(1, (int) i.getArgument(1), "2nd parameter for adaptiveMergeSortInPlace(ListItem<T>,int) differs from expected 2nd parameter");
+            sorted.set(instance.tutor.adaptiveMergeSortInPlace(unsorted.get(), 1));
+            return sorted.get();
+        }).when(instance.student);
+        instance.adaptiveMergeSortInPlace(any(), anyInt());
+        doAnswer(i -> {
+            assertSame(sorted.get(), i.getArgument(0), "1st parameter for listItemToList(ListItem<T>,List<T>) differs from expected 1st parameter");
+            assertSame(param, i.getArgument(1), "2nd parameter for listItemToList(ListItem<T>,List<T>) differs from expected 2nd parameter");
+            instance.tutor.listItemToList(sorted.get(), param);
+            return null;
+        }).when(instance.student);
+        instance.listItemToList(any(), any());
+        var expectedString = ListUtils.toString(List.of("A", "B", "C", "D", "E", "F", "G"));
+        instance.sort(param);
+        var actualString = ListUtils.toString(param);
+        assertEquals(expectedString, actualString, format("result of sort(%s) differs from expected result", paramString));
     }
 
 

@@ -61,35 +61,4 @@ public class H2_1 {
         }
     }
 
-    @Test
-    public void t3() {
-        List<String> param = Stream.of("G", "F", "E", "D", "C", "B", "A").collect(toList());
-        var paramString = ListUtils.toString(param);
-        AtomicReference<ListItem<String>> unsorted = new AtomicReference<>();
-        doAnswer(i -> {
-            assertSame(param, i.getArgument(0), "parameter for listToListItem(ListItem<T>)");
-            unsorted.set(instance.tutor.listToListItem(param));
-            return unsorted.get();
-        }).when(instance.student);
-        instance.listToListItem(any());
-        AtomicReference<ListItem<String>> sorted = new AtomicReference<>();
-        doAnswer(i -> {
-            assertSame(unsorted.get(), i.getArgument(0), "1st parameter for adaptiveMergeSortInPlace(ListItem<T>,int) differs from expected 1st parameter");
-            assertEquals(1, (int) i.getArgument(1), "2nd parameter for adaptiveMergeSortInPlace(ListItem<T>,int) differs from expected 2nd parameter");
-            sorted.set(instance.tutor.adaptiveMergeSortInPlace(unsorted.get(), 1));
-            return sorted.get();
-        }).when(instance.student);
-        instance.adaptiveMergeSortInPlace(any(), anyInt());
-        doAnswer(i -> {
-            assertSame(sorted.get(), i.getArgument(0), "1st parameter for listItemToList(ListItem<T>,List<T>) differs from expected 1st parameter");
-            assertSame(param, i.getArgument(1), "2nd parameter for listItemToList(ListItem<T>,List<T>) differs from expected 2nd parameter");
-            instance.tutor.listItemToList(sorted.get(), param);
-            return null;
-        }).when(instance.student);
-        instance.listItemToList(any(), any());
-        var expectedString = ListUtils.toString(List.of("A", "B", "C", "D", "E", "F", "G"));
-        instance.sort(param);
-        var actualString = ListUtils.toString(param);
-        assertEquals(expectedString, actualString, format("result of sort(%s) differs from expected result", paramString));
-    }
 }
