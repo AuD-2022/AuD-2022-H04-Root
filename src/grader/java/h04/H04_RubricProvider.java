@@ -24,14 +24,14 @@ public class H04_RubricProvider implements RubricProvider {
                         .shortDescription("H1.1 | DoubleToIntFunction")
                         .addChildCriteria(
                             criterion(
-                                "<<<apply>>> von <<<ArrayDoubleToIntFunction>>> funktioniert korrekt.",
+                                "<code>apply</code> von <code>ArrayDoubleToIntFunction</code> funktioniert korrekt.",
                                 1,
                                 () -> H1_1_1.class.getMethod("t1", int[].class),
                                 () -> H1_1_1.class.getMethod("t2", int[].class),
                                 () -> H1_1_1.class.getMethod("t3")
                             ),
                             criterion(
-                                "<<<apply>>> von <<<LinearDoubleToIntFunction>>> funktioniert korrekt.",
+                                "<code>apply</code> von <code>LinearDoubleToIntFunction</code> funktioniert korrekt.",
                                 1,
                                 () -> H1_1_2.class.getMethod("t1", double.class, double.class),
                                 () -> H1_1_2.class.getMethod("t2")
@@ -39,25 +39,25 @@ public class H04_RubricProvider implements RubricProvider {
                         )
                         .build(),
                     Criterion.builder()
-                        .shortDescription("H1.2 | <<<ListToIntFunction>>>")
+                        .shortDescription("H1.2 | <code>ListToIntFunction</code>")
                         .addChildCriteria(
                             criterion(
-                                "<<<apply>>> von <<<FunctionOnRatioOfRuns>>> funktioniert bei einem Run korrekt.",
+                                "<code>apply</code> von <code>FunctionOnRatioOfRuns</code> funktioniert bei einem Run korrekt.",
                                 1,
                                 () -> H1_2_1.class.getMethod("t1", Stream.class)
                             ),
                             criterion(
-                                "<<<apply>>> von <<<FunctionOnRatioOfRuns>>> funktioniert bei mehreren Runs korrekt.",
+                                "<code>apply</code> von <code>FunctionOnRatioOfRuns</code> funktioniert bei mehreren Runs korrekt.",
                                 1,
                                 () -> H1_2_1.class.getMethod("t2", Stream.class, int.class)
                             ),
                             criterion(
-                                "<<<apply>>> von <<<FunctionOnRatioOfInversions>>> funktioniert bei einer Inversion korrekt.",
+                                "<code>apply</code> von <code>FunctionOnRatioOfInversions</code> funktioniert bei einer Inversion korrekt.",
                                 1,
                                 () -> H1_2_2.class.getMethod("t2", List.class)
                             ),
                             criterion(
-                                "<<<apply>>> von <<<FunctionOnRatioOfInversions>>> funktioniert bei keiner und mehreren Inversionen korrekt.",
+                                "<code>apply</code> von <code>FunctionOnRatioOfInversions</code> funktioniert bei keiner und mehreren Inversionen korrekt.",
                                 1,
                                 () -> H1_2_2.class.getMethod("t1", List.class),
                                 () -> H1_2_2.class.getMethod("t3", List.class, int.class)
@@ -67,18 +67,18 @@ public class H04_RubricProvider implements RubricProvider {
                 )
                 .build(),
             Criterion.builder()
-                .shortDescription("H2 | <<<MyCollections>>>")
+                .shortDescription("H2 | <code>MyCollections</code>")
                 .addChildCriteria(
                     Criterion.builder()
-                        .shortDescription("H2.1 | <<<sort>>>")
+                        .shortDescription("H2.1 | <code>sort</code>")
                         .addChildCriteria(
                             criterion(
-                                "<<<listToListItem>>> von <<<MyCollections>>> funktioniert immer korrekt",
+                                "<code>listToListItem</code> von <code>MyCollections</code> funktioniert immer korrekt",
                                 1,
                                 () -> H2_1.class.getMethod("t1", Stream.class)
                             ),
                             criterion(
-                                "<<<listItemToList>>> von <<<MyCollections>>> funktioniert immer korrekt",
+                                "<code>listItemToList</code> von <code>MyCollections</code> funktioniert immer korrekt",
                                 1,
                                 () -> H2_1.class.getMethod("t2", Stream.class)
                             )
@@ -88,37 +88,37 @@ public class H04_RubricProvider implements RubricProvider {
                         .shortDescription("H2.2 | Merge Sort")
                         .addChildCriteria(
                             criterion(
-                                "<<<split>>> funktioniert korrekt, wenn Liste aus zwei Runs gleicher Größe besteht.",
+                                "<code>split</code> funktioniert korrekt, wenn Liste aus zwei Runs gleicher Größe besteht.",
                                 1,
                                 () -> H2_2.class.getMethod("t1", Stream.class, int.class)
                             ),
                             criterion(
-                                "<<<split>>> funktioniert in allen anderen Fällen korrekt.",
+                                "<code>split</code> funktioniert in allen anderen Fällen korrekt.",
                                 1,
                                 () -> H2_2.class.getMethod("t2", Stream.class, int.class)
                             ),
                             criterion(
-                                "Rekursion von <<<adaptiveMergeSortInPlace>>> bricht in entsprechenden Fällen ab.",
+                                "Rekursion von <code>adaptiveMergeSortInPlace</code> bricht in entsprechenden Fällen ab.",
                                 1,
                                 () -> H2_2.class.getMethod("t3", Stream.class, int.class)
                             ),
                             criterion(
-                                "<<<adaptiveMergeSortInPlace>>> wechselt in entsprechenden Fällen korrekt zu Selection Sort.",
+                                "<code>adaptiveMergeSortInPlace</code> wechselt in entsprechenden Fällen korrekt zu Selection Sort.",
                                 1,
                                 () -> H2_2.class.getMethod("t4", Stream.class, int.class)
                             ),
                             criterion(
-                                "<<<adaptiveMergeSortInPlace>>> ruft in entsprechenden Fällen <<<merge>>> korrekt auf.",
+                                "<code>adaptiveMergeSortInPlace</code> ruft in entsprechenden Fällen <code>merge</code> korrekt auf.",
                                 1,
                                 () -> H2_2.class.getMethod("t5", Stream.class, int.class, int.class)
                             ),
                             criterion(
-                                "<<<adaptiveMergeSortInPlace>>> funktioniert immer korrekt",
+                                "<code>adaptiveMergeSortInPlace</code> funktioniert immer korrekt",
                                 1,
                                 () -> H2_2.class.getMethod("t6", Stream.class, int.class)
                             ),
                             criterion(
-                                "<<<merge>>> funktioniert immer korrekt",
+                                "<code>merge</code> funktioniert immer korrekt",
                                 1,
                                 () -> H2_2.class.getMethod("t7", Stream.class, Stream.class)
                             )
@@ -128,23 +128,23 @@ public class H04_RubricProvider implements RubricProvider {
                         .shortDescription("H2.3 | Selection Sort")
                         .addChildCriteria(
                             criterion(
-                                "<<<selectionSortInPlace>>> funktioniert korrekt, wenn Liste sortiert ist.",
+                                "<code>selectionSortInPlace</code> funktioniert korrekt, wenn Liste sortiert ist.",
                                 1,
                                 () -> H2_3.class.getMethod("t1", Stream.class)
                             ),
                             criterion(
-                                "<<<selectionSortInPlace>>> funktioniert korrekt, wenn ein Element umsortiert werden muss.",
+                                "<code>selectionSortInPlace</code> funktioniert korrekt, wenn ein Element umsortiert werden muss.",
                                 2,
                                 () -> H2_3.class.getMethod("t2", Stream.class)
                             ),
                             criterion(
-                                "<<<selectionSortInPlace>>> funktioniert korrekt, wenn mehrere Elemente umsortiert werden müssen.",
+                                "<code>selectionSortInPlace</code> funktioniert korrekt, wenn mehrere Elemente umsortiert werden müssen.",
                                 4,
                                 () -> H2_3.class.getMethod("t3", Stream.class)
                             ),
                             criterion(
-                                "<<<selectionSortInPlace>>> funktioniert immer korrekt.",
-                                4,
+                                "<code>selectionSortInPlace</code> funktioniert immer korrekt.",
+                                2,
                                 () -> H2_3.class.getMethod("t1", Stream.class),
                                 () -> H2_3.class.getMethod("t2", Stream.class),
                                 () -> H2_3.class.getMethod("t3", Stream.class)
@@ -158,33 +158,33 @@ public class H04_RubricProvider implements RubricProvider {
                 .shortDescription("H3 | Umschaltlänge")
                 .addChildCriteria(
                     Criterion.builder()
-                        .shortDescription("H3.1 | <<<DoubleToIntFunctionFitter>>>")
+                        .shortDescription("H3.1 | <code>DoubleToIntFunctionFitter</code>")
                         .addChildCriteria(
                             criterion(
-                                "<<<fitFunction>>> von <<<LinearInterpolation>>> funktioniert bei einem fehlenden Wert korrekt.",
+                                "<code>fitFunction</code> von <code>LinearInterpolation</code> funktioniert bei einem fehlenden Wert korrekt.",
                                 1,
                                 () -> H3_1.class.getMethod("t1", Stream.class, Stream.class)),
                             criterion(
-                                "<<<fitFunction>>> von <<<LinearInterpolation>>> funktioniert bei mehreren fehlenden Werten korrekt.",
+                                "<code>fitFunction</code> von <code>LinearInterpolation</code> funktioniert bei mehreren fehlenden Werten korrekt.",
                                 1,
                                 () -> H3_1.class.getMethod("t2", Stream.class, Stream.class)),
                             criterion(
-                                "<<<fitFunction>>> von <<<LinearRegression>>> funktioniert bei zwei Werten korrekt.",
+                                "<code>fitFunction</code> von <code>LinearRegression</code> funktioniert bei zwei Werten korrekt.",
                                 1,
                                 () -> H3_1_2.class.getMethod("t1", Stream.class, double.class, double.class)
                             ),
                             criterion(
-                                "<<<fitFunction>>> von <<<LinearRegression>>> funktioniert bei mehreren Werten korrekt.",
+                                "<code>fitFunction</code> von <code>LinearRegression</code> funktioniert bei mehreren Werten korrekt.",
                                 1,
                                 () -> H3_1_2.class.getMethod("t2", Stream.class, double.class, double.class)
                             )
                         )
                         .build(),
                     Criterion.builder()
-                        .shortDescription("H3.2 | <<<SortingExperiment>>>")
+                        .shortDescription("H3.2 | <code>SortingExperiment</code>")
                         .addChildCriteria(
                             criterion(
-                                "<<<computeOptimalThresholds>>> von <<<SortingExperiment>>> wurde bearbeitet.",
+                                "<code>computeOptimalThresholds</code> von <code>SortingExperiment</code> wurde bearbeitet.",
                                 4,
                                 () -> H3_2.class.getMethod("t1")
                             )
