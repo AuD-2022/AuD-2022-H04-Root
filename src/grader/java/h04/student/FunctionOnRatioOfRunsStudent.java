@@ -18,6 +18,6 @@ public class FunctionOnRatioOfRunsStudent {
 
     public void assertEqualsApply(int expected, List<String> elements) {
         var string = elements.toString();
-        assertEquals(expected, apply(elements), format("apply(%s) using a f(Ratio)=Ratio*NumberOfItems", string));
+        assertEquals(expected, apply(elements), format("apply(%s) differs for f(Ratio)=Ratio*NumberOfItems", string));
     }
 }

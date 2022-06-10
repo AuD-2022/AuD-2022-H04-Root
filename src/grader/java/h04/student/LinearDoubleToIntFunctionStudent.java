@@ -27,7 +27,7 @@ public final class LinearDoubleToIntFunctionStudent implements DoubleToIntFuncti
         return TUtils.assertImplemented(
             () -> assertThrows(
                 IllegalArgumentException.class, () -> instance.apply(value),
-                () -> format("apply(%s) for a=%s, b=%s", value, a, b)));
+                () -> format("apply(%s) differs for a=%s, b=%s", value, a, b)));
     }
 
     public void assertEqualsApply(double value, double expected) {

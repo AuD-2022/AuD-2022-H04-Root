@@ -93,8 +93,10 @@ public class H2_2 {
         var list2StringExpected = range(firstIndexSecond, n).mapToObj(list::get).collect(listToString());
         var list1StringActual = stream(head).collect(listToString());
         var list2StringActual = stream(headRight).collect(listToString());
-        assertEquals(list1StringExpected, list1StringActual, format("first sequence differ for split(%s)", listString));
-        assertEquals(list2StringExpected, list2StringActual, format("second sequence differ for split(%s)", listString));
+        assertEquals(list1StringExpected, list1StringActual,
+            format("first sequence computed by split(%s) differs from expected first sequence", listString));
+        assertEquals(list2StringExpected, list2StringActual,
+            format("second sequence computed by split(%s) differs from expected second sequence", listString));
     }
 
     public void assertAnchorAdaptiveMergeSortInPlace(Stream<String> stringStream, int threshold) {
@@ -110,7 +112,7 @@ public class H2_2 {
                     var parameterThreshold = (int) invocation.getArgument(1);
                     return fail(
                         format(
-                            "unexpected recursive call for adaptiveMergeSortInPlace(%s,%s): adaptiveMergeSortInPlace(%s,%s)",
+                            "adaptiveMergeSortInPlace(%s,%s) calls adaptiveMergeSortInPlace(%s,%s) unexpectedly",
                             listString,
                             threshold,
                             parameterListString,
@@ -137,19 +139,11 @@ public class H2_2 {
                 listString,
                 listParameterString,
                 format("" +
-                        "wrong list for call of selectionSortInPlace for adaptiveMergeSortInPlace(%s,%s):" +
-                        "selectionSortInPlace(%s)",
+                        "adaptiveMergeSortInPlace(%s,%s) calls" +
+                        "selectionSortInPlace with an invalid actual parameter: (%s)",
                     listString,
                     threshold,
                     listParameterString
-                ));
-            assertSame(
-                list,
-                listParameter,
-                format(
-                    "different list for call of selectionSortInPlace for adaptiveMergeSortInPlace(%s,%s)",
-                    listString,
-                    threshold
                 ));
             return instance.tutor.selectionSortInPlace(listParameter);
         }).when(instance.student).selectionSortInPlace(any());

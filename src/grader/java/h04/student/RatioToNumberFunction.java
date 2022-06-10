@@ -16,7 +16,7 @@ public class RatioToNumberFunction implements DoubleToIntFunction {
     @Override
     public int apply(double ratio) {
         if (ratio * number != (int) (ratio * number)) {
-            throw new AssertionFailedError(format("invalid ratio for %s elements: %s", number, ratio));
+            throw new AssertionFailedError(format("invalid actual parameter for apply with n=%s elements: ratio=%.2f", number, ratio));
         }
         return (int) (ratio * number);
     }

@@ -30,7 +30,7 @@ public final class ArrayDoubleToIntFunctionStudent implements DoubleToIntFunctio
             () -> assertThrows(
                 IllegalArgumentException.class,
                 () -> instance.apply(value),
-                () -> format("apply(%s) for array=%s", value, Arrays.toString(array))
+                () -> format("apply(%s) differs for array=%s", value, Arrays.toString(array))
             )
         );
     }

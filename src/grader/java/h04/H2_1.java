@@ -40,7 +40,7 @@ public class H2_1 {
         var expected = ListUtils.toString(list);
         var listItem = instance.listToListItem(list);
         var actual = ListUtils.toString(listItem, n);
-        assertEquals(expected, actual, format("apply(%s)", expected));
+        assertEquals(expected, actual, format("result of apply(%s) differs from expected result", expected));
     }
 
     @ParameterizedTest
@@ -57,7 +57,7 @@ public class H2_1 {
                 .collect(Collectors.joining("|", "[", "]"));
             instance.listItemToList(head, list);
             var actual = ListUtils.toString(list);
-            assertEquals(expected, actual, format("listItemToList(%s,%s)", headString, listString));
+            assertEquals(expected, actual, format("result of listItemToList(%s,%s) differs from expected result", headString, listString));
         }
     }
 
@@ -74,15 +74,15 @@ public class H2_1 {
         instance.listToListItem(any());
         AtomicReference<ListItem<String>> sorted = new AtomicReference<>();
         doAnswer(i -> {
-            assertSame(unsorted.get(), i.getArgument(0), "1st parameter for adaptiveMergeSortInPlace(ListItem<T>,int)");
-            assertEquals(1, (int) i.getArgument(1), "2nd parameter for adaptiveMergeSortInPlace(ListItem<T>,int)");
+            assertSame(unsorted.get(), i.getArgument(0), "1st parameter for adaptiveMergeSortInPlace(ListItem<T>,int) differs from expected 1st parameter");
+            assertEquals(1, (int) i.getArgument(1), "2nd parameter for adaptiveMergeSortInPlace(ListItem<T>,int) differs from expected 2nd parameter");
             sorted.set(instance.tutor.adaptiveMergeSortInPlace(unsorted.get(), 1));
             return sorted.get();
         }).when(instance.student);
         instance.adaptiveMergeSortInPlace(any(), anyInt());
         doAnswer(i -> {
-            assertSame(sorted.get(), i.getArgument(0), "1st parameter for listItemToList(ListItem<T>,List<T>)");
-            assertSame(param, i.getArgument(1), "2nd parameter for listItemToList(ListItem<T>,List<T>)");
+            assertSame(sorted.get(), i.getArgument(0), "1st parameter for listItemToList(ListItem<T>,List<T>) differs from expected 1st parameter");
+            assertSame(param, i.getArgument(1), "2nd parameter for listItemToList(ListItem<T>,List<T>) differs from expected 2nd parameter");
             instance.tutor.listItemToList(sorted.get(), param);
             return null;
         }).when(instance.student);
@@ -90,6 +90,6 @@ public class H2_1 {
         var expectedString = ListUtils.toString(List.of("A", "B", "C", "D", "E", "F", "G"));
         instance.sort(param);
         var actualString = ListUtils.toString(param);
-        assertEquals(expectedString, actualString, format("sort(%s)", paramString));
+        assertEquals(expectedString, actualString, format("result of sort(%s) differs from expected result", paramString));
     }
 }
