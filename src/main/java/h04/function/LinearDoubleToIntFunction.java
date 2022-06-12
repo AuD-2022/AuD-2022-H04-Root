@@ -12,12 +12,12 @@ public class LinearDoubleToIntFunction implements DoubleToIntFunction {
     /**
      * The f_1 coefficient.
      */
-    private final double a;
+    public final double a;
 
     /**
      * The f_0 coefficient.
      */
-    private final double b;
+    public final double b;
 
     /**
      * Constructs and initializes a {@code LinearDoubleToIntFunction} with the specified coefficients.

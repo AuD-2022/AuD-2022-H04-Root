@@ -36,7 +36,7 @@ public final class SortingExperiment {
     /**
      * Don't let anyone instantiate this class.
      */
-    private SortingExperiment() {
+    public SortingExperiment() {
     }
 
     /**
@@ -197,7 +197,7 @@ public final class SortingExperiment {
      *
      * @return {@code true} if the list is sorted, {@code false} otherwise
      */
-    private static <T> boolean isSorted(List<T> list, Comparator<? super T> cmp) {
+    public static <T> boolean isSorted(List<T> list, Comparator<? super T> cmp) {
         Iterator<T> it = list.iterator();
         // Empty list
         if (!it.hasNext()) {
@@ -225,7 +225,7 @@ public final class SortingExperiment {
      *
      * @return the average sorting time in milliseconds
      */
-    private static double averageSortingTimeInMilliseconds(
+    public static double averageSortingTimeInMilliseconds(
         int n,
         ListToIntFunction<Integer> function,
         int permutations) {

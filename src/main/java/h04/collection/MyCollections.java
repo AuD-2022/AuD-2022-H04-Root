@@ -22,12 +22,12 @@ public class MyCollections<T> {
     /**
      * Determines the toggle length when the sorting algorithm should be toggled (usage of another sorting algorithm).
      */
-    private final ListToIntFunction<T> function;
+    public final ListToIntFunction<T> function;
 
     /**
      * The comparator used to compare the elements of the list.
      */
-    private final Comparator<? super T> cmp;
+    public final Comparator<? super T> cmp;
 
     /**
      * Constructs and initializes a {@code MyCollections}.
@@ -58,7 +58,7 @@ public class MyCollections<T> {
      *
      * @return the list item sequence containing the element of the list
      */
-    private ListItem<T> listToListItem(List<T> list) {
+    public ListItem<T> listToListItem(List<T> list) {
         Iterator<T> iterator = list.iterator();
 
         if (!iterator.hasNext()) {
@@ -84,7 +84,7 @@ public class MyCollections<T> {
      * @param head the list item sequence
      * @param list the list to transfer to
      */
-    private void listItemToList(ListItem<T> head, List<T> list) {
+    public void listItemToList(ListItem<T> head, List<T> list) {
         ListIterator<T> iterator = list.listIterator();
         for (ListItem<T> current = head; current != null; current = current.next) {
             iterator.next();
@@ -101,7 +101,7 @@ public class MyCollections<T> {
      *
      * @return the sorted list
      */
-    private ListItem<T> adaptiveMergeSortInPlace(ListItem<T> head, int threshold) {
+    public ListItem<T> adaptiveMergeSortInPlace(ListItem<T> head, int threshold) {
         boolean sorted = true;
         int size = 0;
 
@@ -147,7 +147,7 @@ public class MyCollections<T> {
      *
      * @return the second part of the list
      */
-    private ListItem<T> split(ListItem<T> head, int optimalSize) {
+    public ListItem<T> split(ListItem<T> head, int optimalSize) {
         // Stores the split position
         ListItem<T> split = null;
         int diff = -1;
@@ -194,7 +194,7 @@ public class MyCollections<T> {
      *
      * @return the merged sorted sequence
      */
-    private ListItem<T> merge(ListItem<T> left, ListItem<T> right) {
+    public ListItem<T> merge(ListItem<T> left, ListItem<T> right) {
         ListItem<T> leftCurrent = left;
         ListItem<T> rightCurrent = right;
 
@@ -245,7 +245,7 @@ public class MyCollections<T> {
      *
      * @return the sorted list
      */
-    private ListItem<T> selectionSortInPlace(ListItem<T> head) {
+    public ListItem<T> selectionSortInPlace(ListItem<T> head) {
         ListItem<T> sorted = null;
         ListItem<T> unsorted = head;
 
@@ -280,7 +280,7 @@ public class MyCollections<T> {
      *         Solution - finding minimum           *
      ************************************************/
 
-//    private ListItem<T> selectionSortInPlace(ListItem<T> head) {
+//    public ListItem<T> selectionSortInPlace(ListItem<T> head) {
 //        ListItem<T> sorted = null;
 //        ListItem<T> tail = null;
 //        ListItem<T> unsorted = head;
@@ -327,7 +327,7 @@ public class MyCollections<T> {
      *            Solution with swap                *
      ************************************************/
 
-//    private ListItem<T> selectionSortInPlace(ListItem<T> head) {
+//    public ListItem<T> selectionSortInPlace(ListItem<T> head) {
 //        ListItem<T> sorted = head;
 //        int size = 0;
 //        for (ListItem<T> current = head; current != null; current = current.next) {
@@ -354,7 +354,7 @@ public class MyCollections<T> {
 //     *
 //     * @return the list with the swapped elements
 //     */
-//    private ListItem<T> swap(ListItem<T> head, int i, int j) {
+//    public ListItem<T> swap(ListItem<T> head, int i, int j) {
 //        // Swapping same elements is a no-op
 //        if (i == j) {
 //            return head;
@@ -396,7 +396,7 @@ public class MyCollections<T> {
 //     *
 //     * @return the list with the swapped elements
 //     */
-//    private ListItem<T> swap(ListItem<T> head, ListItem<T> first, ListItem<T> second, boolean isHead) {
+//    public ListItem<T> swap(ListItem<T> head, ListItem<T> first, ListItem<T> second, boolean isHead) {
 //        if (head == first && head == second) {
 //            /*
 //             * Case 1: Swap first with second element
@@ -475,7 +475,7 @@ public class MyCollections<T> {
 //     *
 //     * @return the index of the last maximum element in the list
 //     */
-//    private int getMaximumIndex(ListItem<T> head, int low, int high) {
+//    public int getMaximumIndex(ListItem<T> head, int low, int high) {
 //        int maxIndex = low;
 //        ListItem<T> current = head;
 //        // Skip elements before the lower bound

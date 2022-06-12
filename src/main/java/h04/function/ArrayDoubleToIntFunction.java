@@ -18,12 +18,12 @@ public class ArrayDoubleToIntFunction implements DoubleToIntFunction {
     /**
      * THe maximum deviation of the function (1.0e-6 = 1.0 x 10-6 = 0.0000010)..
      */
-    private static final double DELTA = 1.0e-6;
+    public static final double DELTA = 1.0e-6;
 
     /**
      * The array of values used for this function.
      */
-    private final int[] elements;
+    public final int[] elements;
 
     /**
      * Constructs and initializes an {@code ArrayDoubleToIntFunction} with the given values used for the function.
@@ -32,7 +32,9 @@ public class ArrayDoubleToIntFunction implements DoubleToIntFunction {
      */
     public ArrayDoubleToIntFunction(int[] elements) {
         this.elements = new int[elements.length];
-        System.arraycopy(elements, 0, this.elements, 0, elements.length);
+        for (int i = 0; i < elements.length; i++) {
+            this.elements[i] = elements[i];
+        }
     }
 
     /**

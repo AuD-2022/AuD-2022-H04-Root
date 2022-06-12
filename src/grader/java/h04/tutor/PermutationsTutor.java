@@ -1,4 +1,4 @@
-package h04.util;
+package h04.tutor;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,16 +12,16 @@ import java.util.Random;
  *
  * @author Kim Berninger, Nhan Huynh
  */
-public final class Permutations {
+public final class PermutationsTutor {
 
     /**
      * Don't let anyone instantiate this class.
      */
-    public Permutations() {
+    private PermutationsTutor() {
     }
 
     /**
-     * Returns the number of runs in the specified list.
+     * Returns the number of multiple_runs in the specified list.
      *
      * <p>A run is a sorted (descending) sequence of elements.
      *
@@ -34,8 +34,7 @@ public final class Permutations {
      * @param elements   the list of elements
      * @param comparator the comparator used to compare the elements of the list
      * @param <T>        the type of the elements
-     *
-     * @return the number of runs in the specified list
+     * @return the number of multiple_runs in the specified list
      */
     public static <T> int computeNumberOfRuns(List<T> elements, Comparator<? super T> comparator) {
         int runs = 1;
@@ -68,7 +67,6 @@ public final class Permutations {
      * @param elements   the list of elements
      * @param comparator the comparator used to compare the elements of the list
      * @param <T>        the type of the elements
-     *
      * @return the number of inversions in the specified list
      */
     public static <T> int computeNumberOfInversions(List<T> elements, Comparator<? super T> comparator) {
