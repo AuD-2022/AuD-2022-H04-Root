@@ -9,6 +9,10 @@ import org.objectweb.asm.Opcodes;
 import org.sourcegrade.jagr.api.testing.ClassTransformer;
 
 public class AccessTransformer implements ClassTransformer {
+    private static int makePublic(int access) {
+        return access & ~Opcodes.ACC_PRIVATE & ~Opcodes.ACC_PROTECTED & ~Opcodes.ACC_FINAL | Opcodes.ACC_PUBLIC;
+    }
+
     @Override
     public String getName() {
         return "AccessTransformer";
@@ -17,10 +21,6 @@ public class AccessTransformer implements ClassTransformer {
     @Override
     public void transform(ClassReader reader, ClassWriter writer) {
         reader.accept(new CV(Opcodes.ASM9, writer), 0);
-    }
-
-    private static int makePublic(int access) {
-        return access & ~Opcodes.ACC_PRIVATE & ~Opcodes.ACC_PROTECTED & ~Opcodes.ACC_FINAL | Opcodes.ACC_PUBLIC;
     }
 
     private static class CV extends ClassVisitor {

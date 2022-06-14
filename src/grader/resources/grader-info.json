@@ -1,1 +1,85 @@
-{"name": "AuD-2022-H04-Root", "assignmentIds": ["h04"], "sourceSets": [{"name": "solution", "files": ["h04/Main.java", "h04/SortingExperiment.java", "h04/util/Permutations.java", "h04/collection/MyCollections.java", "h04/collection/ListItem.java", "h04/function/DoubleToIntFunction.java", "h04/function/ListToIntFunction.java", "h04/function/FunctionOnDegreeOfDisorder.java", "h04/function/FunctionOnRatioOfRuns.java", "h04/function/LinearDoubleToIntFunction.java", "h04/function/ArrayDoubleToIntFunction.java", "h04/function/LinearRegression.java", "h04/function/ConstantListToIntFunction.java", "h04/function/LinearInterpolation.java", "h04/function/DoubleToIntFunctionFitter.java", "h04/function/FunctionOnRatioOfInversions.java", "h04/ExampleJUnitTest.java"]}, {"name": "grader", "files": ["h04/H1_1_2.java", "h04/H3_1.java", "h04/TextConstants.java", "h04/H3_2.java", "h04/H1_2_1.java", "h04/AccessTransformer.java", "h04/H1_1_1.java", "h04/H2_3.java", "h04/JUnitUtils.java", "h04/RubricUtils.java", "h04/H3_1_2.java", "h04/H2_2.java", "h04/H1_2_2.java", "h04/TUtils.java", "h04/H2_1.java", "h04/H04_RubricProvider.java", "h04/ListUtils.java", "h04/student/LinearInterpolationStudent.java", "h04/student/LinearDoubleToIntFunctionStudent.java", "h04/student/ArrayDoubleToIntFunctionStudent.java", "h04/student/RatioToNumberFunction.java", "h04/student/LinearRegressionStudent.java", "h04/student/FunctionOnRatioOfRunsStudent.java", "h04/student/FunctionOnRatioOfInversionsStudent.java", "h04/student/MyCollectionsStudent.java", "h04/tutor/MyCollectionsTutor.java", "h04/tutor/PermutationsTutor.java", "grader-info.json", "h04/arrays", "h04/abs", "h04/h2_1/alphabet", "h04/h2_3/selectionSortInPlace_sorted", "h04/h2_3/selectionSortInPlace_multiple_elements_unsorted", "h04/h2_3/selectionSortInPlace_one_element_unsorted", "h04/h1_2/multiple_runs", "h04/h1_2/one_run", "h04/h1_2/zero_inversions", "h04/h1_2/one_inversion", "h04/h1_2/multiple_inversions", "h04/h3_1/LinearInterpolation_multiple_values", "h04/h3_1/LinearRegression_two_values", "h04/h3_1/LinearInterpolation_one_value", "h04/h3_1/LinearRegression_multiple_values", "h04/h2_2/adaptiveMergeSortInPlace_merge", "h04/h2_2/split_two_runs", "h04/h2_2/split_multiple_runs", "h04/h2_2/merge", "h04/h2_2/adaptiveMergeSortInPlace_anchor", "h04/h2_2/adaptiveMergeSortInPlace", "h04/h2_2/adaptiveMergeSortInPlace_switch"]}]}
+{
+  "name": "AuD-2022-H04-Root",
+  "assignmentIds": [
+    "h04"
+  ],
+  "sourceSets": [
+    {
+      "name": "solution",
+      "files": [
+        "h04/Main.java",
+        "h04/SortingExperiment.java",
+        "h04/util/Permutations.java",
+        "h04/collection/MyCollections.java",
+        "h04/collection/ListItem.java",
+        "h04/function/DoubleToIntFunction.java",
+        "h04/function/ListToIntFunction.java",
+        "h04/function/FunctionOnDegreeOfDisorder.java",
+        "h04/function/FunctionOnRatioOfRuns.java",
+        "h04/function/LinearDoubleToIntFunction.java",
+        "h04/function/ArrayDoubleToIntFunction.java",
+        "h04/function/LinearRegression.java",
+        "h04/function/ConstantListToIntFunction.java",
+        "h04/function/LinearInterpolation.java",
+        "h04/function/DoubleToIntFunctionFitter.java",
+        "h04/function/FunctionOnRatioOfInversions.java",
+        "h04/ExampleJUnitTest.java"
+      ]
+    },
+    {
+      "name": "grader",
+      "files": [
+        "h04/H1_1_2.java",
+        "h04/H3_1.java",
+        "h04/TextConstants.java",
+        "h04/H3_2.java",
+        "h04/H1_2_1.java",
+        "h04/AccessTransformer.java",
+        "h04/H1_1_1.java",
+        "h04/H2_3.java",
+        "h04/JUnitUtils.java",
+        "h04/RubricUtils.java",
+        "h04/H3_1_2.java",
+        "h04/H2_2.java",
+        "h04/H1_2_2.java",
+        "h04/TUtils.java",
+        "h04/H2_1.java",
+        "h04/H04_RubricProvider.java",
+        "h04/ListUtils.java",
+        "h04/student/LinearInterpolationStudent.java",
+        "h04/student/LinearDoubleToIntFunctionStudent.java",
+        "h04/student/ArrayDoubleToIntFunctionStudent.java",
+        "h04/student/RatioToNumberFunction.java",
+        "h04/student/LinearRegressionStudent.java",
+        "h04/student/FunctionOnRatioOfRunsStudent.java",
+        "h04/student/FunctionOnRatioOfInversionsStudent.java",
+        "h04/student/MyCollectionsStudent.java",
+        "h04/tutor/MyCollectionsTutor.java",
+        "h04/tutor/PermutationsTutor.java",
+        "grader-info.json",
+        "h04/arrays",
+        "h04/abs",
+        "h04/h2_1/alphabet",
+        "h04/h2_3/selectionSortInPlace_sorted",
+        "h04/h2_3/selectionSortInPlace_multiple_elements_unsorted",
+        "h04/h2_3/selectionSortInPlace_one_element_unsorted",
+        "h04/h1_2/multiple_runs",
+        "h04/h1_2/one_run",
+        "h04/h1_2/zero_inversions",
+        "h04/h1_2/one_inversion",
+        "h04/h1_2/multiple_inversions",
+        "h04/h3_1/LinearInterpolation_multiple_values",
+        "h04/h3_1/LinearRegression_two_values",
+        "h04/h3_1/LinearInterpolation_one_value",
+        "h04/h3_1/LinearRegression_multiple_values",
+        "h04/h2_2/adaptiveMergeSortInPlace_merge",
+        "h04/h2_2/split_two_runs",
+        "h04/h2_2/split_multiple_runs",
+        "h04/h2_2/merge",
+        "h04/h2_2/adaptiveMergeSortInPlace_anchor",
+        "h04/h2_2/adaptiveMergeSortInPlace",
+        "h04/h2_2/adaptiveMergeSortInPlace_switch"
+      ]
+    }
+  ]
+}
