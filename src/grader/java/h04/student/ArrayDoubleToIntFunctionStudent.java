@@ -17,11 +17,13 @@ public final class ArrayDoubleToIntFunctionStudent implements DoubleToIntFunctio
 
     public ArrayDoubleToIntFunctionStudent(int[] array) {
         this.array = IntStream.of(array).toArray();
-        this.instance = TUtils.assertImplemented(() -> new ArrayDoubleToIntFunction(array));
+        this.instance = TUtils.assertImplemented(
+            () -> new ArrayDoubleToIntFunction(array),
+            String.format("new ArrayDoubleToIntFunction(%s)", Arrays.toString(array)));
     }
 
     public int apply(double value) {
-        return TUtils.assertImplemented(() -> instance.apply(value));
+        return TUtils.assertImplemented(() -> instance.apply(value), String.format("apply(%s)", value));
     }
 
 
@@ -31,7 +33,8 @@ public final class ArrayDoubleToIntFunctionStudent implements DoubleToIntFunctio
                 IllegalArgumentException.class,
                 () -> instance.apply(value),
                 () -> format("apply(%s) differs for array=%s", value, Arrays.toString(array))
-            )
+            ),
+            String.format("apply(%s)", value)
         );
     }
 
