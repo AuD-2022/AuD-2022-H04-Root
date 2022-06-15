@@ -141,7 +141,7 @@ public class ListUtils {
         var stringActual = actualList.stream().map(i -> String.valueOf(i.key)).collect(listToString());
         assertEquals(stringExpected, stringActual, message.get());
         var expectedIterator = expectedList.iterator();
-        var actualIterator = expectedList.iterator();
+        var actualIterator = actualList.iterator();
         while (expectedIterator.hasNext()) {
             var expectedElement = expectedIterator.next();
             var actualElement = actualIterator.next();
