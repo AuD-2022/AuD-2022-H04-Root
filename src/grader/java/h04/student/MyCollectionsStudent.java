@@ -10,6 +10,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.spy;
 
+import h04.ListUtils;
 import h04.collection.ListItem;
 import h04.collection.MyCollections;
 import h04.function.ListToIntFunction;
@@ -25,8 +26,16 @@ public class MyCollectionsStudent<T> {
         this.tutor = new MyCollectionsTutor<>(function, comparator);
     }
 
+    public static MyCollectionsStudent<String> forString() {
+        return new MyCollectionsStudent<>(l -> 1, naturalOrder());
+    }
+
     public ListItem<T> listToListItem(List<T> list) {
-        return assertImplemented(() -> student.listToListItem(list));
+        var callString = String.format("listToListItem(%s)", list);
+        return assertImplemented(
+            () -> student.listToListItem(list),
+            callString
+        );
     }
 
     public void listToListItemUseTutor() {
@@ -34,10 +43,12 @@ public class MyCollectionsStudent<T> {
     }
 
     public void listItemToList(ListItem<T> head, List<T> list) {
+        var callString = String.format("listItemToList(%s,%s)", ListUtils.toString(head), list);
         assertImplemented(() -> {
-            student.listItemToList(head, list);
-            return null;
-        });
+                student.listItemToList(head, list);
+                return null;
+            },
+            callString);
     }
 
     public void listItemToListUseTutor() {
@@ -45,10 +56,13 @@ public class MyCollectionsStudent<T> {
     }
 
     public void sort(List<T> list) {
+        var callString = String.format("sort(%s)", list);
         assertImplemented(() -> {
-            student.sort(list);
-            return null;
-        });
+                student.sort(list);
+                return null;
+            },
+            callString
+        );
     }
 
     public void sortUseTutor() {
@@ -56,7 +70,8 @@ public class MyCollectionsStudent<T> {
     }
 
     public ListItem<T> adaptiveMergeSortInPlace(ListItem<T> head, int threshold) {
-        return assertImplemented(() -> student.adaptiveMergeSortInPlace(head, threshold));
+        var callString = String.format("adaptiveMergeSortInPlace(%s,%s)", ListUtils.toString(head), threshold);
+        return assertImplemented(() -> student.adaptiveMergeSortInPlace(head, threshold), callString);
     }
 
     public void adaptiveMergeSortInPlaceUseTutor() {
@@ -64,7 +79,8 @@ public class MyCollectionsStudent<T> {
     }
 
     public ListItem<T> split(ListItem<T> head, int optimalSize) {
-        return assertImplemented(() -> student.split(head, optimalSize));
+        var callString = String.format("split(%s,%s)", ListUtils.toString(head), optimalSize);
+        return assertImplemented(() -> student.split(head, optimalSize), callString);
     }
 
     public void useReferenceForSplit() {
@@ -72,7 +88,8 @@ public class MyCollectionsStudent<T> {
     }
 
     public ListItem<T> merge(ListItem<T> left, ListItem<T> right) {
-        return assertImplemented(() -> student.merge(left, right));
+        var callString = String.format("merge(%s,%s)", ListUtils.toString(left), ListUtils.toString(right));
+        return assertImplemented(() -> student.merge(left, right), callString);
     }
 
     public void useReferenceForMerge() {
@@ -80,14 +97,11 @@ public class MyCollectionsStudent<T> {
     }
 
     public ListItem<T> selectionSortInPlace(ListItem<T> head) {
-        return assertImplemented(() -> student.selectionSortInPlace(head));
+        var callString = String.format("selectionSortInPlace(%s)", ListUtils.toString(head));
+        return assertImplemented(() -> student.selectionSortInPlace(head), callString);
     }
 
     public void useReferenceForSelectionSortInPlace() {
         doAnswer(tutor::selectionSortInPlaceByInvocation).when(student).selectionSortInPlace(any());
-    }
-
-    public static MyCollectionsStudent<String> forString() {
-        return new MyCollectionsStudent<>(l -> 1, naturalOrder());
     }
 }

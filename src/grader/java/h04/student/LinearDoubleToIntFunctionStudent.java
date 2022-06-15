@@ -15,11 +15,17 @@ public final class LinearDoubleToIntFunctionStudent implements DoubleToIntFuncti
     public LinearDoubleToIntFunctionStudent(double a, double b) {
         this.a = a;
         this.b = b;
-        this.instance = TUtils.assertImplemented(() -> new LinearDoubleToIntFunction(a, b));
+        this.instance = TUtils.assertImplemented(
+            () -> new LinearDoubleToIntFunction(a, b),
+            String.format("new LinearDoubleToIntFunction(%s,%s)", a, b)
+        );
     }
 
     public int apply(double value) {
-        return TUtils.assertImplemented(() -> instance.apply(value));
+        return TUtils.assertImplemented(
+            () -> instance.apply(value),
+            String.format("apply(%s)", value)
+        );
     }
 
 
@@ -27,7 +33,8 @@ public final class LinearDoubleToIntFunctionStudent implements DoubleToIntFuncti
         return TUtils.assertImplemented(
             () -> assertThrows(
                 IllegalArgumentException.class, () -> instance.apply(value),
-                () -> format("apply(%s) differs for a=%s, b=%s", value, a, b)));
+                () -> format("apply(%s) differs for a=%s, b=%s", value, a, b)),
+            String.format("apply(%s)", value));
     }
 
     public void assertEqualsApply(double value, double expected) {
